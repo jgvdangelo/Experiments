@@ -3,7 +3,7 @@ package graphs;
 import java.util.List;
 import java.util.Set;
 
-public class MatrixGraph<V, E> implements IGraph<V, E> {
+public class MatrixGraph<V> implements IGraph<V> {
 
 	public void addEdge(Object v1, Object v2, Object e) {
 		// TODO Auto-generated method stub
