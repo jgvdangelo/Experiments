@@ -7,6 +7,23 @@ import java.util.Arrays;
 public class TripleStep {
 	
 	// problem 8.1
+	private static int runUpStairsTabMem(int n, int[] arr) {
+		int Vim1 = 1;
+		int Vim2 = 1;
+		int Vim3 = 1;
+		int i = 2;
+		int V = 2;
+		
+		while (i != n) {
+			Vim3 = Vim2;
+			Vim2 = Vim1;
+			Vim1 = V;
+			i++;
+			V = Vim1 + Vim2 + Vim3;
+		}
+		return V;
+	}
+	
 	private static int runUpStairsTab(int n, int[] arr) {
 		for (int i = 3; i <= n; i++) {
 			arr[i] = arr[i - 1] + arr[i - 2] + arr[i - 3];
@@ -24,7 +41,7 @@ public class TripleStep {
 		}
 	}
 	
-	private static int runUpStairs(int n, boolean memo) {
+	public static int runUpStairs(int n, boolean memo, boolean saveSpace) {
 		if (n == 0) {
 			return 1;
 		} else if (n == 1) {
@@ -40,8 +57,10 @@ public class TripleStep {
 			
 			if (memo)
 				return runUpStairsMemo(n, arr);
-			else
+			else if (!saveSpace)
 				return runUpStairsTab(n, arr);
+			else 
+				return runUpStairsTabMem(n, arr);
 		}
 	}
 	
@@ -77,7 +96,12 @@ public class TripleStep {
 		return mat[r][c];
 	}
 	
-	public static int robotGrid(int r, int c, boolean memo) {
+	private static int robotGridTabMem(int r, int c, int[][] mat) {
+		// TODO: fill this out	
+		return 0;
+	}
+	
+	public static int robotGrid(int r, int c, boolean memo, boolean saveSpace) {
 		// start off with just an RxC grid (r = rows, c = columns)
 		if (r == 0 || c == 0) 
 			return 0;
@@ -95,16 +119,16 @@ public class TripleStep {
 			
 			if (memo)
 				return robotGridMemo(r - 1, c - 1, mat);
-			else
+			else if (!saveSpace) {
 				return robotGridTab(r - 1, c - 1, mat);
+			} else {
+				return robotGridTabMem(r - 1, c - 1, mat);
+			}
 		}
 	}
 	
 	public static void main(String[] args) {
-		// problem 8.1
-		// System.out.println(runUpStairs(5, false));
-		
 		// problem 8.2
-		System.out.println(robotGrid(5, 5, false));
+		System.out.println(robotGrid(5, 5, false, true));
 	}
 }
