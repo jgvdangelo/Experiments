@@ -96,9 +96,26 @@ public class TripleStep {
 		return mat[r][c];
 	}
 	
-	private static int robotGridTabMem(int r, int c, int[][] mat) {
-		// TODO: fill this out	
-		return 0;
+	private static int robotGridTabMem(int r, int c) {
+		int[] vals = new int[c];
+		int currIndex = 0;
+		int V = 0;
+		for (int i = 0; i < r; i++) {
+			for (int j = 0; j < c; j++) {
+				if (i == 0 && j != 0) {
+					V = 1;
+				} else if (i != 0 && j == 0) {
+					V = 1;
+				} else if (i == 0 && j == 0) {
+					V = 0;
+				} else {
+					V = vals[(currIndex - 1 + vals.length) % vals.length] + vals[currIndex];
+				}
+				vals[currIndex] = V;
+				currIndex = (currIndex + 1) % vals.length; 
+			}
+		}
+		return V;
 	}
 	
 	public static int robotGrid(int r, int c, boolean memo, boolean saveSpace) {
@@ -122,7 +139,7 @@ public class TripleStep {
 			else if (!saveSpace) {
 				return robotGridTab(r - 1, c - 1, mat);
 			} else {
-				return robotGridTabMem(r - 1, c - 1, mat);
+				return robotGridTabMem(r, c);
 			}
 		}
 	}

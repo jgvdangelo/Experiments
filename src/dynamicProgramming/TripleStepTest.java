@@ -17,7 +17,9 @@ public class TripleStepTest {
 	// Problem 8.2
 	@Test
 	public void testRobotGrid() {
-		fail("Not yet implemented");
+		assertEquals(TripleStep.robotGrid(5, 5, false, true),70);
+		assertEquals(TripleStep.robotGrid(5, 5, false, false),70);
+		assertEquals(TripleStep.robotGrid(5, 5, true, false),70);
 	}
 
 }
