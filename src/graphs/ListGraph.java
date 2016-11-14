@@ -1,30 +1,30 @@
 package graphs;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 // TODO: fill these out
 public class ListGraph<V, E> implements IGraph<V, E> {
 	
-	private class GraphNode {
-		public boolean visited = false;
-		public int data;
-		List<GraphNode> adjacent = new ArrayList<GraphNode>();
-		
-		public GraphNode(int data) {
-			this.data = data;
-		}
-	}
+	Map<V, List<V>> nodes = new HashMap<V, List<V>>();
 
 	public void addEdge(V v1, V v2, E e) {
-		// TODO Auto-generated method stub
+		if (!nodes.containsKey(v1) || !nodes.containsKey(v2) || v1.equals(v2)) {
+			throw new IllegalArgumentException();
+		}
 		
+		List<V> v1Adj = nodes.get(v1);
+		v1Adj.add(v2);
+		nodes.put(v1, v1Adj);
+		
+		List<V> v2Adj = nodes.get(v2);
+		v2Adj.add(v1);
+		nodes.put(v2, v2Adj);
 	}
 
 	public void addVertex(V v) {
-		// TODO Auto-generated method stub
-		
+		if (!nodes.containsKey(v1)) {
+			throw new IllegalArgumentException();
+		}
 	}
 
 	public void clear() {
