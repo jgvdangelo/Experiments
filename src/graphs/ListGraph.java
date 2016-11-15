@@ -4,46 +4,47 @@ import java.util.*;
 
 // TODO: fill these out
 public class ListGraph<V> implements IGraph<V> {
-	
-	Map<V, Set<V>> nodes = new HashMap<V, Set<V>>();
+
+	Map<V, Set<V>> lists = new HashMap<V, Set<V>>();
+	Map<V, Boolean> visited = new HashMap<V, Boolean>();
 
 	public void addEdge(V v1, V v2) {
-		if (!nodes.containsKey(v1) || !nodes.containsKey(v2) || v1.equals(v2)) {
+		if (!lists.containsKey(v1) || !lists.containsKey(v2) || v1.equals(v2)) {
 			throw new IllegalArgumentException();
 		}
 		
-		Set<V> v1Adj = nodes.get(v1);
+		Set<V> v1Adj = lists.get(v1);
 		v1Adj.add(v2);
-		nodes.put(v1, v1Adj);
+		lists.put(v1, v1Adj);
 		
-		Set<V> v2Adj = nodes.get(v2);
+		Set<V> v2Adj = lists.get(v2);
 		v2Adj.add(v1);
-		nodes.put(v2, v2Adj);
+		lists.put(v2, v2Adj);
 	}
 
 	public void addVertex(V v) {
-		if (!nodes.containsKey(v)) {
+		if (!lists.containsKey(v)) {
 			throw new IllegalArgumentException();
 		}
 		
 		Set<V> vAdj = new HashSet<V>();
-		nodes.put(v, vAdj);
+		lists.put(v, vAdj);
 	}
 
 	public void clear() {
-		nodes.clear();
+		lists.clear();
 	}
 
 	public boolean containsEdge(V v1, V v2) {
-		return nodes.get(v1).contains(v2);
+		return lists.get(v1).contains(v2);
 	}
 
 	public boolean containsVertex(V v) {
-		return nodes.containsKey(v);
+		return lists.containsKey(v);
 	}
 
 	public int degree(V v) {
-		return nodes.get(v).size();
+		return lists.get(v).size();
 	}
 
 	public boolean isDirected() {
@@ -51,7 +52,7 @@ public class ListGraph<V> implements IGraph<V> {
 	}
 
 	public boolean isEmpty() {
-		return (nodes.size() == 0);
+		return (lists.size() == 0);
 	}
 
 	public boolean isReachable(V v1, V v2) {
@@ -60,11 +61,11 @@ public class ListGraph<V> implements IGraph<V> {
 	}
 
 	public Set<V> neighbors(V v) {
-		return nodes.get(v);
+		return lists.get(v);
 	}
 
 	public int outDegree(V v) {
-		return nodes.get(v).size();
+		return lists.get(v).size();
 	}
 
 	public void removeEdge(V v1, V v2) {
@@ -88,6 +89,6 @@ public class ListGraph<V> implements IGraph<V> {
 	}
 
 	public Set<V> vertices() {
-		return nodes.keySet();
+		return lists.keySet();
 	}
 }
