@@ -4,6 +4,7 @@ import java.util.*;
 
 public interface IGraph<V> {
 	void addVertex(V v);
+	void addEdge(V v1, V v2);
 	void clear();
 	boolean containsEdge(V v1, V v2);
 	boolean containsVertex(V v);
