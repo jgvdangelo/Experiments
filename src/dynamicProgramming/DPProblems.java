@@ -145,6 +145,33 @@ public class DPProblems {
 	}
 	
 	// Problem 8.3
+	private static int findHelper(int[] arr, int first, int last) {
+		if (last < first) {
+			return -1;
+		} else if (last == first && arr[first] != first) {
+			return -1;
+		}
+		
+		int mid; int left;
+		while (first < last) {
+			mid = (first + last) / 2;
+			if (arr[mid] == mid) {
+				return mid;
+			} else if (arr[first] > mid || arr[mid] < first) {
+				first = mid + 1;
+			} else if (arr[mid] > last || arr[last] < mid) {
+				last = mid - 1;
+			} else {
+				left = findHelper(arr, first, Math.min(mid - 1, arr[mid]));
+				if (left != -1) {
+					return left;
+				}
+				return findHelper(arr, Math.max(mid + 1, arr[mid]), last);
+			}
+		}
+		return (first == arr[first] ? first : -1);
+	}
+	
 	public static int findMagicIndex(int[] arr, boolean areDistinct) {
 		if (areDistinct) {
 			if (arr[0] > 0 || arr[arr.length - 1] < (arr.length - 1)) {
@@ -167,14 +194,15 @@ public class DPProblems {
 			}
 			return (arr[first] == first ? first : -1);
 		} else {
-			// TODO: finish this
-			return -1;
+			int first = 0;
+			int last = arr.length - 1;
+			return findHelper(arr, first, last);
 		}
 	}
 	
 	public static void main(String[] args) {
 		// problem 8.3
-		int[] arr = new int[] {-40, -20, -3, 3, 5, 10};
-		System.out.println(findMagicIndex(arr, true));
+		int[] arr = new int[] {-40, -20, -3, 2, 3, 3, 3, 5, 8, 10};
+		System.out.println(findMagicIndex(arr, false));
 	}
 }
