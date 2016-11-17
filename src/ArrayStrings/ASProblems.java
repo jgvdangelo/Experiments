@@ -94,7 +94,36 @@ public class ASProblems {
 		return true;
 	}
 	
+	// Problem 1.5
+	public static boolean oneAway(String str1, String str2) {
+		if (str2.length() > str1.length() + 1 || str2.length() < str1.length() - 1) {
+			return false;
+		}
+		Map<Character, Boolean> map = new HashMap<Character, Boolean>();
+		
+		char[] chars1 = str1.toCharArray();
+		char[] chars2 = str2.toCharArray();
+		
+		for (int i = 0; i < chars1.length; i++) {
+			map.put(chars1[i], false);
+		}
+		
+		for (int i = 0; i < chars2.length; i++) {
+			if (map.containsKey(chars2[i]) && map.get(chars2[i]) == false) {
+				map.put(chars2[i], true);
+			}
+		}
+		
+		int falseCount = 0;
+		for (Character key : map.keySet()) {
+			if (map.get(key) == false)
+				falseCount++;
+		}
+		
+		return (falseCount <= 1 ? true : false);
+	}
+	
 	public static void main(String[] args) {
-		System.out.println(palindromePermut("Tactaao Cooa"));
+		
 	}
 }

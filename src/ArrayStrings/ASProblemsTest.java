@@ -25,4 +25,13 @@ public class ASProblemsTest {
 		assertTrue(ASProblems.palindromePermut("aaaaa"));
 		assertFalse(ASProblems.palindromePermut("aaaaaccc"));
 	}
+	
+	// Problem 1.5
+	@Test
+	public void testOneAway() {
+		assertTrue(ASProblems.oneAway("pale", "ple"));
+		assertTrue(ASProblems.oneAway("pales", "pale"));
+		assertTrue(ASProblems.oneAway("pale", "bale"));
+		assertFalse(ASProblems.oneAway("pale", "bake"));
+	}
 }
