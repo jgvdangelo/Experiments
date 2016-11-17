@@ -1,6 +1,6 @@
 package dynamicProgramming;
 
-import java.util.Arrays;
+import java.util.*;
 
 // taken from Cracking the Coding Interview, chapter 8
 
@@ -200,9 +200,27 @@ public class DPProblems {
 		}
 	}
 	
+	// Problem 8.4
+	private static List<List<Integer>> helper(int[] arr, List<Integer> set, int currIndex, List<List<Integer>> allSets) {
+		if (currIndex == arr.length) {
+			allSets.add(new ArrayList<Integer>(set));
+		} else {
+			set.add(arr[currIndex]);
+			helper(arr, set, currIndex + 1, allSets);
+			set.remove(set.size() - 1);
+			helper(arr, set, currIndex + 1, allSets);
+		}
+		return allSets;
+	}
+	
+	public static List<List<Integer>> subsets(int[] arr) {
+		return helper(arr, new ArrayList<Integer>(), 0, new ArrayList<List<Integer>>());
+	}
+	
 	public static void main(String[] args) {
 		// problem 8.3
-		int[] arr = new int[] {-40, -20, -3, 2, 3, 3, 3, 5, 8, 10};
-		System.out.println(findMagicIndex(arr, false));
+		int[] arr = new int[] {-40, -20, -3, 3};
+		List<List<Integer>> subsets = subsets(arr);
+		System.out.println(subsets.toString());
 	}
 }
