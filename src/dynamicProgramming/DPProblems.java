@@ -213,14 +213,33 @@ public class DPProblems {
 		return allSets;
 	}
 	
-	public static List<List<Integer>> subsets(int[] arr) {
-		return helper(arr, new ArrayList<Integer>(), 0, new ArrayList<List<Integer>>());
+	public static List<List<Integer>> subsets(int[] arr, boolean useRecursion) {
+		List<List<Integer>> ret = new ArrayList<List<Integer>>();
+		if (useRecursion) {
+			return helper(arr, new ArrayList<Integer>(), 0, ret);
+		} else {
+			int totalVariations = 1 << arr.length;
+			List<Integer> subset; int index;
+			for (int i = 0; i < totalVariations; i++) {
+				subset = new ArrayList<Integer>();
+				index = 0;
+				for (int k = i ; k > 0; k >>= 1) {
+					if ((k & 1) == 1) {
+						subset.add(arr[index]);
+					}
+					index++;
+				}
+				ret.add(subset);
+			}
+			
+			return ret;
+		}
 	}
 	
 	public static void main(String[] args) {
 		// problem 8.3
-		int[] arr = new int[] {-40, -20, -3, 3};
-		List<List<Integer>> subsets = subsets(arr);
+		int[] arr = new int[] {1, 2, 3, 4};
+		List<List<Integer>> subsets = subsets(arr, true);
 		System.out.println(subsets.toString());
 	}
 }
