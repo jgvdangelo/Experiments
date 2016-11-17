@@ -1,4 +1,4 @@
-package StacksQueues;
+package stacksQueues;
 
 public class SQProblems {
 
