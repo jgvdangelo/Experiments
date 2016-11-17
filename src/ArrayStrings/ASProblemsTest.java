@@ -29,9 +29,14 @@ public class ASProblemsTest {
 	// Problem 1.5
 	@Test
 	public void testOneAway() {
-		assertTrue(ASProblems.oneAway("pale", "ple"));
-		assertTrue(ASProblems.oneAway("pales", "pale"));
-		assertTrue(ASProblems.oneAway("pale", "bale"));
-		assertFalse(ASProblems.oneAway("pale", "bake"));
+		assertTrue(ASProblems.oneAway("pale", "ple", false));
+		assertTrue(ASProblems.oneAway("pales", "pale", false));
+		assertTrue(ASProblems.oneAway("pale", "bale", false));
+		assertFalse(ASProblems.oneAway("pale", "bake", false));
+		
+		assertTrue(ASProblems.oneAway("pale", "ple", true));
+		assertTrue(ASProblems.oneAway("pales", "pale", true));
+		assertTrue(ASProblems.oneAway("pale", "bale", true));
+		assertFalse(ASProblems.oneAway("pale", "bake", true));
 	}
 }

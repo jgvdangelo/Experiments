@@ -95,32 +95,74 @@ public class ASProblems {
 	}
 	
 	// Problem 1.5
-	public static boolean oneAway(String str1, String str2) {
+	public static boolean oneAway(String str1, String str2, boolean saveMem) {
 		if (str2.length() > str1.length() + 1 || str2.length() < str1.length() - 1) {
 			return false;
 		}
-		Map<Character, Boolean> map = new HashMap<Character, Boolean>();
-		
-		char[] chars1 = str1.toCharArray();
-		char[] chars2 = str2.toCharArray();
-		
-		for (int i = 0; i < chars1.length; i++) {
-			map.put(chars1[i], false);
-		}
-		
-		for (int i = 0; i < chars2.length; i++) {
-			if (map.containsKey(chars2[i]) && map.get(chars2[i]) == false) {
-				map.put(chars2[i], true);
+		if (!saveMem) {
+			Map<Character, Boolean> map = new HashMap<Character, Boolean>();
+			
+			char[] chars1 = str1.toCharArray();
+			char[] chars2 = str2.toCharArray();
+			
+			for (int i = 0; i < chars1.length; i++) {
+				map.put(chars1[i], false);
+			}
+			
+			for (int i = 0; i < chars2.length; i++) {
+				if (map.containsKey(chars2[i]) && map.get(chars2[i]) == false) {
+					map.put(chars2[i], true);
+				}
+			}
+			
+			int falseCount = 0;
+			for (Character key : map.keySet()) {
+				if (map.get(key) == false)
+					falseCount++;
+			}
+			
+			return (falseCount <= 1 ? true : false);
+		} else {
+			if (str1.length() == str2.length()) {
+				boolean discrepFound = false;
+				
+				for (int i = 0; i < str1.length(); i++) {
+					if (str1.charAt(i) != str2.charAt(i)) {
+						if (!discrepFound) {
+							discrepFound = true;
+						} else {
+							return false;
+						}
+					}
+				}
+				return true;
+			} else {
+				String smaller; String larger;
+				if (str1.length() < str2.length()) {
+					smaller = str1;
+					larger = str2;
+				} else {
+					smaller = str2;
+					larger = str1;
+				}
+				int smallIndex = 0;
+				int largeIndex = 0;
+
+				while (smallIndex < smaller.length() && largeIndex < larger.length()) {
+					if (smaller.charAt(smallIndex) != larger.charAt(largeIndex)) {
+						if (smallIndex == largeIndex) {
+							largeIndex++;
+						} else {
+							return false;
+						}
+					} else {
+						smallIndex++;
+						largeIndex++;
+					}
+				}
+				return true;
 			}
 		}
-		
-		int falseCount = 0;
-		for (Character key : map.keySet()) {
-			if (map.get(key) == false)
-				falseCount++;
-		}
-		
-		return (falseCount <= 1 ? true : false);
 	}
 	
 	public static void main(String[] args) {
