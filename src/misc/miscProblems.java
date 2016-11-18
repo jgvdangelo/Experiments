@@ -5,7 +5,7 @@ import java.util.List;
 import java.io.*;
 import java.awt.*;
 
-public class miscProblems {
+public class MiscProblems {
 	// Problem to find max memory being used when multiple tasks are scheduled
 	public static void processScheduling(String file) {
 		Scanner scan;
@@ -114,8 +114,23 @@ public class miscProblems {
 		}
 	}
 	
+	// Problem: giving the minimum change for a price
+	public static int[] minimumChange(int price, int[] denominations) {
+		int[] change = new int[denominations.length];
+		
+		int currIndex = denominations.length - 1;
+		while (price != 0 && currIndex >= 0) {
+			change[currIndex] = price / denominations[currIndex];
+			price = price % denominations[currIndex];
+			currIndex--;
+		}
+		
+		return change; 
+	}
+	
 	public static void main(String[] args) {
 		processScheduling("scheduling");
 		processMuseumGuard("museumGuard");
+		System.out.println(Arrays.toString(minimumChange(69, new int[] {1, 5, 10, 25})));
 	}
 }
