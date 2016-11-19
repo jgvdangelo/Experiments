@@ -166,6 +166,10 @@ public class ASProblems {
 	}
 	
 	public static void main(String[] args) {
-		
+		int num = -100;
+		for (int i = 0; i < 5; i++) {
+			num >>= 1;
+			System.out.println(num);
+		}
 	}
 }
