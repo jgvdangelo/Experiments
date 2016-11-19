@@ -5,7 +5,7 @@ public class BitManProblems {
 	// Common bit operations, for my own practice
 	public static boolean getBit(int num, int i) {
 		// TODO: implement
-		return -1;
+		return false;
 	}
 	
 	public static int setBit(int num, int i) {
