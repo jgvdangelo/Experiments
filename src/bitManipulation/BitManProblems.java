@@ -103,7 +103,38 @@ public class BitManProblems {
 		System.out.println("MAX IS " + maximum + " OR BINARY " + Integer.toBinaryString(maximum));
 	}
 	
-	public static void main(String[] args) {
+	public static void nextNumber(int n) {
+		System.out.println("ORIGINAL IS: " + Integer.toBinaryString(n));
+		
+		// TODO: this is wrong, redo
+		
+		//// to find next #
+		// find first 1
+		int findFirst = n ^ (n - 1);
+		int oneIndex = -1;
+		while (findFirst != 0) {
+			oneIndex++;
+			findFirst >>= 1;
+		}
 
+		// find first 0 after that 1
+		int findZero = n >> oneIndex;
+		findZero = findZero ^ (n + 1);
+		int zeroIndex = oneIndex - 1;
+		while (findZero != 0) {
+			zeroIndex++;
+			findZero >>= 1;
+		}
+		System.out.println("Zero index is: " + zeroIndex);
+		
+		// set oneIndex to 0, and zeroIndex to 1
+		int nextNum = n;
+		nextNum &= ~(1 << oneIndex);
+		nextNum |= (1 << zeroIndex);
+		System.out.println("NEXT NUM IS: " + Integer.toBinaryString(nextNum));
+	}
+	
+	public static void main(String[] args) {
+		nextNumber(7);
 	}
 }
