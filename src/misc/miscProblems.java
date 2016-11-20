@@ -128,6 +128,60 @@ public class MiscProblems {
 		return change; 
 	}
 	
+	// Problem: Modify the array by moving all the zeros to the end (right side).
+	private static void swap(int[] arr, int first, int second) {
+		int temp = arr[first];
+		arr[first] = arr[second];
+		arr[second] = temp;
+	}
+	
+	private static int findNextNonZeroIndex(int[] arr, int currIndex) {
+		boolean nonZeroFound = false;
+		while (currIndex >= 0 && !nonZeroFound) {
+			if (arr[currIndex] != 0) {
+				nonZeroFound = true;
+			} else {
+				currIndex--;
+			}
+		}
+		
+		return currIndex;
+	}
+	
+	private static int findNextZeroIndex(int[] arr, int currIndex) {
+		boolean zeroFound = false;
+		while (currIndex < arr.length && !zeroFound) {
+			if (arr[currIndex] == 0) {
+				zeroFound = true;
+			} else {
+				currIndex++;
+			}
+		}
+		
+		return currIndex;
+	}
+	
+	public static int[] moveZeros(int[] arr) {
+		if (arr.length <= 1) {
+			return arr;
+		} 
+		
+		int nonZeroIndex = findNextNonZeroIndex(arr, arr.length - 1);
+		int zeroIndex = findNextZeroIndex(arr, 0);
+		if (nonZeroIndex == -1 || zeroIndex == arr.length || zeroIndex > nonZeroIndex) {
+			// passed an array of either all zeros or non-zeros, or sorted
+			return arr;
+		}
+		
+		while (zeroIndex < nonZeroIndex) {
+			swap(arr, zeroIndex, nonZeroIndex);
+			zeroIndex = findNextZeroIndex(arr, zeroIndex);
+			nonZeroIndex = findNextNonZeroIndex(arr, nonZeroIndex);
+		}
+		
+		return arr;
+	}
+	
 	public static void main(String[] args) {
 		processScheduling("scheduling");
 		processMuseumGuard("museumGuard");

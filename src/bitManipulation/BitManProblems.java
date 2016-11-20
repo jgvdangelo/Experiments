@@ -82,15 +82,28 @@ public class BitManProblems {
 			}
 		}
 		
-		
-		System.out.println(oneZeros);
-		
 		return max;
 	}
 	
+	// Problem 5.4
+	public static void nextNumberWrongSolution(int n) {
+		System.out.println("ORIGINAL IS " + Integer.toBinaryString(n));
+		int onesCount = 0;
+		while (n != 0) {
+			if ((n & 1) == 1) {
+				onesCount++;
+			}
+			n >>>= 1;
+		}
+		int minimum = (1 << (onesCount)) - 1;
+		System.out.println("MIN IS " + minimum + " OR BINARY " + Integer.toBinaryString(minimum));
+		
+		int length = 31 - onesCount;
+		int maximum = (minimum << length);
+		System.out.println("MAX IS " + maximum + " OR BINARY " + Integer.toBinaryString(maximum));
+	}
+	
 	public static void main(String[] args) {
-		int num = -3;
-		System.out.println(Integer.toBinaryString(num));
-		System.out.println(flipBitToWin(num));
+
 	}
 }

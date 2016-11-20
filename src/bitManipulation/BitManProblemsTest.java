@@ -32,10 +32,4 @@ public class BitManProblemsTest {
 		assertEquals(BitManProblems.updateBit(7, 2, false), 3);
 		assertEquals(BitManProblems.updateBit(-7, 31, false), 2147483641);
 	}
-
-	@Test
-	public void testInsertion() {
-		fail("Not yet implemented");
-	}
-
 }
