@@ -88,6 +88,7 @@ public class MinIntHeap implements IIntHeap {
 			}
 			
 			swap(bubbleDown, toSwap);
+			bubbleDown = toSwap;
 		}
 		
 		return ret;
