@@ -235,7 +235,7 @@ public class MiscProblems {
 		processScheduling("scheduling");
 		processMuseumGuard("museumGuard");
 		System.out.println(Arrays.toString(minimumChange(69, new int[] {1, 5, 10, 25})));
-		int n = 1321;
+		int n = 10111;
 		System.out.println("Original: " + n + ", Modified: " + nextPermute(n));
 	}
 }

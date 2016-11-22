@@ -134,7 +134,24 @@ public class BitManProblems {
 		System.out.println("NEXT NUM IS: " + Integer.toBinaryString(nextNum));
 	}
 	
+	// Problem 5.6
+	public static int conversion(int first, int second) {
+		int count = 0;
+		int bitOne; int bitTwo;
+		while (first != 0 || second != 0) {
+			bitOne = first & 1;
+			bitTwo = second & 1;
+			
+			first >>>= 1;
+			second >>>= 1;
+			
+			if ((bitOne ^ bitTwo) == 1)
+				count++;
+		}
+		return count;
+	}
+	
 	public static void main(String[] args) {
-		nextNumber(7);
+		System.out.println(conversion(1,-1));
 	}
 }
