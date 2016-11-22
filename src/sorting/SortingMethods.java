@@ -1,5 +1,7 @@
 package sorting;
 
+import java.util.*;
+
 public class SortingMethods {
 	private static void swap(int[] arr, int index1, int index2) {
 		int temp = arr[index1];
@@ -41,7 +43,45 @@ public class SortingMethods {
 		quickSortHelper(arr, 0, arr.length - 1);
 	}
 	
-	public static void mergeSort() {
-		// TODO: implement
+	// Implement Merge sort
+	public static int[] merge(int[] arr1, int[] arr2) {
+		int[] ret = new int[arr1.length + arr2.length];
+		int ind1 = 0;
+		int ind2 = 0;
+		int retInd = 0;
+		
+		while (ind1 < arr1.length && ind2 < arr2.length) {
+			if (arr1[ind1] > arr2[ind2]) {
+				ret[retInd] = arr2[ind2];
+				ind2++;
+			} else { // if (arr1[ind1] <= arr2[ind2])
+				ret[retInd] = arr1[ind1];
+				ind1++;
+			}
+			retInd++;
+		}
+		
+		while (ind1 < arr1.length) {
+			ret[retInd] = arr1[ind1];
+			retInd++; ind1++;
+		}
+		
+		while (ind2 < arr2.length) {
+			ret[retInd] = arr2[ind2];
+			retInd++; ind2++;			
+		}
+		
+		return ret;
+	}
+	
+	public static int[] mergeSort(int[] arr) {
+		if (arr.length == 1) {
+			return arr;
+		}
+		
+		int[] arr1 = mergeSort(Arrays.copyOfRange(arr, 0, arr.length / 2));
+		int[] arr2 = mergeSort(Arrays.copyOfRange(arr, arr.length / 2, arr.length));
+		
+		return merge(arr1, arr2);
 	}
 }

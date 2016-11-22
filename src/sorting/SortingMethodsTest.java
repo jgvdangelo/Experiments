@@ -4,6 +4,8 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import java.util.*;
+
 public class SortingMethodsTest {
 
 	@Test
@@ -15,7 +17,11 @@ public class SortingMethodsTest {
 
 	@Test
 	public void testMergeSort() {
-		fail("Not yet implemented");
+		int[] toSort = new int[] {4, 3, 2, 1, 33, 3425, 12};
+		int[] output = Arrays.copyOf(toSort, toSort.length);
+		Arrays.sort(output);
+		int[] compare = SortingMethods.mergeSort(toSort);
+		assertArrayEquals(compare, output);
 	}
 
 }
