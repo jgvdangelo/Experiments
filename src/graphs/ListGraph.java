@@ -2,7 +2,6 @@ package graphs;
 
 import java.util.*;
 
-// TODO: fill these out
 public class ListGraph<V> implements IGraph<V> {
 
 	Map<V, Set<V>> lists = new HashMap<V, Set<V>>();
@@ -99,7 +98,6 @@ public class ListGraph<V> implements IGraph<V> {
 
 	public void removeVertex(V v) {
 		// TODO Auto-generated method stub
-		
 	}
 	
 	private List<V> BFS(V v1, V v2) {
