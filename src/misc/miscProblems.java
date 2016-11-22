@@ -182,9 +182,60 @@ public class MiscProblems {
 		return arr;
 	}
 	
+	// Problem to find the next permutation of an integer
+	public static int nextPermute(int n) {
+		if (n <= 0) {
+			throw new IllegalArgumentException();
+		}
+		
+		int[] counts = new int[10];
+		
+		int prevDigit = n % 10;
+		counts[prevDigit]++;
+		n /= 10;
+		int currDigit = n % 10;
+		n /= 10;
+		while (n != 0 && currDigit >= prevDigit) {
+			prevDigit = currDigit;
+			counts[prevDigit]++;
+			currDigit = n % 10;
+			n /= 10;
+		}
+		
+		if (currDigit >= prevDigit) {
+			throw new IllegalArgumentException();
+		}
+		
+		counts[currDigit]++;
+		
+		int nextUp = -1;
+		boolean found = false;
+		int i = currDigit + 1;
+		while (i < counts.length && !found) {
+			if (counts[i] != 0) {
+				nextUp = i;
+				found = true;
+			}
+			i++;
+		}
+		
+		counts[nextUp]--;
+		n = n * 10 + nextUp;
+		
+		for (i = 0; i < counts.length; i++) {
+			for (int j = 0; j < counts[i]; j++) {
+				n = n * 10 + i;
+			}
+		}
+		
+		return n;
+	}
+	
 	public static void main(String[] args) {
 		processScheduling("scheduling");
 		processMuseumGuard("museumGuard");
 		System.out.println(Arrays.toString(minimumChange(69, new int[] {1, 5, 10, 25})));
+		int n = 1321;
+		System.out.println("Original: " + n + ", Modified: " + nextPermute(n));
 	}
 }
