@@ -72,7 +72,6 @@ public class MatrixGraph { // implements IGraph<V> {
 		return 0;
 	}
 
-
 	public boolean isEmpty() {
 		for (int i = 0; i < matrix.length; i++) {
 			for (int j = 0; j < matrix[0].length; j++) { 
@@ -83,10 +82,30 @@ public class MatrixGraph { // implements IGraph<V> {
 		return false;
 	}
 
-
+	public boolean DFS(int v1, int v2, boolean[] visited) {
+		if (v1 == v2) {
+			return true;
+		} else {
+			boolean found = false;
+			visited[v1] = true;
+			for (int i = 0; i < matrix[v1].length; i++) {
+				if (matrix[v1][i] == LINK && !visited[i]) {
+					found = DFS(i, v2, visited);
+					if (found == true) {
+						return found;
+					}
+				}
+			}
+			return found;
+		}
+	}
+	
 	public boolean isReachable(int v1, int v2) {
-		// TODO Auto-generated method stub
-		return false;
+		if (v1 >= matrix.length || v2 >= matrix.length)
+			throw new IllegalArgumentException();
+		
+		boolean[] visited = new boolean[matrix.length];
+		return DFS(v1, v2, visited);
 	}
 
 
