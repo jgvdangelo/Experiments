@@ -240,11 +240,33 @@ public class MiscProblems {
 		System.out.println(Arrays.toString(str));
 	}
 	
+	// Calculate difference between two clock hands
+	public static float determineAngle(int hour, int minutes) {
+		// calc hour angle from 12
+		// calc minute angle from 12
+		// subtract the two + have some sort of math.abs etc.
+		
+		if (hour == 12) {
+			hour = 0;
+		}
+		
+		float hourAngleFrom12 = hour * 30f + (0.5f * minutes);
+		float minuteAngleFrom12 = minutes * 6f;
+		
+		float diff = Math.abs(hourAngleFrom12 - minuteAngleFrom12);
+		if (diff > 180) {
+			diff = 360 - diff;
+		}
+
+		return diff;
+	}
+	
 	public static void main(String[] args) {
 		processScheduling("scheduling");
 		processMuseumGuard("museumGuard");
 		System.out.println(Arrays.toString(minimumChange(69, new int[] {1, 5, 10, 25})));
 		int n = 10111;
 		System.out.println("Original: " + n + ", Modified: " + nextPermute(n));
+		System.out.println(determineAngle(3,30));
 	}
 }

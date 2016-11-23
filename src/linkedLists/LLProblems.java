@@ -27,6 +27,28 @@ public class LLProblems {
 		}
 	}
 	
+	// Misc: pairwise reversal of a linked list
+	public static void pairwiseReversal(Node n) {
+		if (n == null || n.next == null) {
+			return;
+		}
+		
+		// switch front
+		Node temp = n.next;
+		n.next = n.next.next;
+		temp.next = n;
+		n = temp;
+		
+		// switch remaining nodes
+		Node curr = n.next;
+		while (curr.next != null && curr.next.next != null) {
+			temp = curr.next.next;
+			curr.next.next = curr.next.next.next;
+			temp.next = curr.next;
+			curr.next = temp;
+		}
+	}
+	
 	public class Node {
 		int data;
 		Node next;
