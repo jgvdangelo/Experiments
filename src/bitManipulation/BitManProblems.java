@@ -21,6 +21,12 @@ public class BitManProblems {
 		return (bitIs1 ? num | (1 << i) : num & ~(1 << i));
 	}
 	
+	public static void swap(int[] nums) {
+		nums[0] = nums[1] ^ nums[0];
+		nums[1] = nums[0] ^ nums[1];
+		nums[0] = nums[0] ^ nums[1];
+	}
+	
 	// Problem 5.1
 	public static int insertion(int n, int m, int i, int j) {
 		// set all places to be inserted in n to zero
@@ -152,6 +158,9 @@ public class BitManProblems {
 	}
 	
 	public static void main(String[] args) {
-		System.out.println(conversion(1,-1));
+		int[] arr = new int[] {9, 2};
+		System.out.println(Arrays.toString(arr));
+		swap(arr);
+		System.out.println(Arrays.toString(arr));
 	}
 }

@@ -231,6 +231,15 @@ public class MiscProblems {
 		return n;
 	}
 	
+	// Swap two strings without using a temp variable
+	public static void swapStrings(String[] str) {
+		System.out.println(Arrays.toString(str));
+		str[0] = str[0] + str[1];
+		str[1] = str[0].substring(0, str[0].length() - str[1].length());
+		str[0] = str[0].substring(str[1].length());
+		System.out.println(Arrays.toString(str));
+	}
+	
 	public static void main(String[] args) {
 		processScheduling("scheduling");
 		processMuseumGuard("museumGuard");
