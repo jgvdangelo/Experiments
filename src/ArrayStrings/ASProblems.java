@@ -1,5 +1,6 @@
 package arrayStrings;
 
+import java.awt.*;
 import java.util.*;
 
 public class ASProblems {
@@ -165,11 +166,34 @@ public class ASProblems {
 		}
 	}
 	
+	// TODO: fix the pts array in this method
+	public static void swapFourwise(int i, int j, int[][] mat) {
+		Point[] pts = new Point[] {new Point(i, j), new Point(i, mat[0].length - 1 - j), 
+				new Point(mat.length - 1 - i, mat[0].length - 1 - j), new Point(mat.length - 1 - i, j)};
+		int temp = mat[pts[3].x][pts[3].y];
+	    mat[pts[3].x][pts[3].y] = mat[pts[2].x][pts[2].y];
+	    mat[pts[2].x][pts[2].y] = mat[pts[1].x][pts[1].y];
+	    mat[pts[1].x][pts[1].y] = mat[pts[0].x][pts[0].y];
+	    mat[pts[0].x][pts[0].y] = temp;
+	}
+
+	public static void rotateMatrix(int[][] mat) {
+		for (int i = 0; i < mat.length / 2; i++) {
+			for (int j = 0; j < (mat[0].length + 1) / 2; j++) {
+				swapFourwise(i, j, mat);
+			}
+		}
+	}
+	
 	public static void main(String[] args) {
-		int num = -100;
-		for (int i = 0; i < 5; i++) {
-			num >>= 1;
-			System.out.println(num);
+		int[][] game1 = new int[4][];
+		game1[0] = new int[] {1, 0, 2, 3};
+		game1[1] = new int[] {1, 1, 2, 4};
+		game1[2] = new int[] {1, 0, 2, 5};
+		game1[3] = new int[] {1, 9, 2, 2};
+		rotateMatrix(game1);
+		for (int i = 0; i < game1.length; i++) {
+			System.out.println(Arrays.toString(game1[i]));
 		}
 	}
 }
