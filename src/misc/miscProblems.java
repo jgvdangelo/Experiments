@@ -326,6 +326,39 @@ public class MiscProblems {
 		return false;
 	}
 	
+	public static String splitIntoGroups(String str, int groupSize) {
+		Queue<Character> temp = new LinkedList<Character>();
+		for (int i = 0; i < str.length(); i++) {
+			if (str.charAt(i) != '-') {
+				temp.add(str.charAt(i));
+			}
+		}
+
+		StringBuffer ret = new StringBuffer();
+		int leftOver = temp.size() % groupSize;
+		while (leftOver > 0 && !temp.isEmpty()) {
+			ret.append(temp.remove());
+	    leftOver--;
+		}
+
+		if (ret.length() != 0) {
+			ret.append('-');
+		}
+
+		int count = 0;
+		while (!temp.isEmpty()) {
+			if (count < groupSize) {
+				ret.append(temp.remove());
+				count++;
+			} else if (count >= groupSize) {
+				count = 0;
+				ret.append('-');
+			} 
+		}
+
+		return ret.toString();
+	}
+	
 	public static void main(String[] args) {
 		processScheduling("scheduling");
 		processMuseumGuard("museumGuard");
@@ -333,5 +366,6 @@ public class MiscProblems {
 		int n = 10111;
 		System.out.println("Original: " + n + ", Modified: " + nextPermute(n));
 		System.out.println(determineAngle(3,30));
+		System.out.println(splitIntoGroups("a-b-c-d-e", 2));
 	}
 }
