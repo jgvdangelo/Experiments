@@ -260,71 +260,7 @@ public class MiscProblems {
 
 		return diff;
 	}
-	
-	// Problem 16.4: Validating a game of tic-tac-toe
-	public static boolean ticTacToe(int[][] game) {
-		// 1 = X, 2 = O, and 0 = blank in game matrix
-		// in cols/rows/dags, -1 = no possible way to win in that permute
-		int[] cols = new int[game[0].length];
-		int[] rows = new int[game.length];
-		int[] diags = new int[2];
-		
-		int val;
-		for (int i = 0; i < game.length; i++) {
-			for (int j = 0; j < game[0].length; j++) {
-				val = game[i][j];
-				if (val == 0) {
-					cols[j] = -1;
-					rows[i] = -1;
-					if (i == j) {
-						diags[0] = -1;
-					} else if (i == game.length - 1 - j) { // TODO: double check this
-						diags[1] = -1;
-					}
-				} else {
-					if (i == 0) {
-						cols[j] = val;
-					} else {
-						if (cols[j] != val) {
-							cols[j] = -1;
-						}
-					}
-					if (j == 0) {
-						rows[i] = 1;
-					} else {
-						if (rows[i] != val) {
-							rows[i] = -1;
-						}
-					}
-					if (i == 0 && j == 0) {
-						diags[0] = val;
-					} else if (i == 0 && j == 2) {
-						diags[1] = val;
-					} else if (i == j ) {
-						if (diags[0] != val)
-							diags[0] = -1;
-					} else if (i == game.length - 1 - j) {
-						if (diags[1] != val)
-							diags[1] = -1;
-					}
-				}
-			}
-		}
-		
-		for (int i = 0; i < rows.length; i++) {
-			if (rows[i] != -1) 
-				return true;
-			if (cols[i] != -1)
-				return true;
-		}
 
-		for (int i = 0; i < diags.length; i++) {
-			if (diags[i] != -1)
-				return true;
-		}
-
-		return false;
-	}
 	
 	public static String splitIntoGroups(String str, int groupSize) {
 		Queue<Character> temp = new LinkedList<Character>();
@@ -358,6 +294,129 @@ public class MiscProblems {
 
 		return ret.toString();
 	}
+	
+	// Problem: given K lists of sorted integers, find the smallest range that includes at least one number from each of the k-lists
+	public static int[] findSmallestRange(int[][] lists) {
+		TreeMap<Integer, Integer> queue = new TreeMap<Integer, Integer>();
+
+		int[] indices = new int[lists.length];
+
+		for (int i = 0; i < lists.length; i++) {
+			queue.put(lists[i][0], i);
+			indices[i]++;
+		}
+
+		int minRange = getRange(queue);
+		int[] rangeVals = getRangeVals(queue);
+
+		boolean finished = false;
+		int listToReplace;
+		while (!finished) {
+			listToReplace = queue.get(queue.firstKey());
+			queue.remove(queue.firstKey());
+			if (indices[listToReplace] == lists[listToReplace].length) {
+				finished = true;
+			} else {
+				queue.put(lists[listToReplace][indices[listToReplace]], listToReplace);
+				indices[listToReplace]++;
+				if (minRange > getRange(queue)) {
+					minRange = getRange(queue);
+					rangeVals = getRangeVals(queue);
+				}
+			}
+		}
+
+		return rangeVals;
+	}
+
+	public static int getRange(TreeMap<Integer, Integer> queue) {
+		return queue.lastKey() - queue.firstKey();
+	}
+
+	public static int[] getRangeVals(TreeMap<Integer, Integer> queue) {
+		return new int[] {queue.firstKey(), queue.lastKey()};
+	}
+	
+	public static void smallestListsRangeRecursive(int[][] lists) {
+		int length = 0;
+		for (int i = 0; i < lists.length; i++) {
+			length += lists[i].length;
+		}
+
+		int[] listNum = new int[length];
+		int[] vals = new int[length];
+		int[] indices = new int[lists.length];
+
+		int valsIndex = 0;
+
+		TreeMap<Integer, Integer> priorityMap = new TreeMap<Integer, Integer>();
+		for (int i = 0; i < lists.length; i++) {
+			priorityMap.put(lists[i][0], i);
+			indices[i]++;
+		}
+
+		int lowestVal = 0;
+		int lowestValList = 0;
+		int nextVal = 0;
+		while (valsIndex < vals.length) {
+			lowestVal = priorityMap.firstKey();
+			lowestValList = priorityMap.get(lowestVal);
+			vals[valsIndex] = lowestVal;
+			listNum[valsIndex] = lowestValList;
+
+			priorityMap.remove(lowestVal);
+			valsIndex++;
+			if (indices[lowestValList] < lists[lowestValList].length) {
+				nextVal = lists[lowestValList][indices[lowestValList]];
+				priorityMap.put(nextVal, lowestValList);
+				indices[lowestValList]++;
+			}
+		}
+
+		int[] range = findSmalllestRangeRecursiveHelper(lists.length, listNum, vals, 0);
+		System.out.println("From " + vals[range[0]] + " to " + vals[range[1]]);
+	} 
+
+	public static int[] findSmalllestRangeRecursiveHelper(int k, int[] listNum, int[] values, int startIndex) {
+		if (startIndex > listNum.length - k)
+			return null;
+		boolean subsetFound = false;
+		boolean[] listFound = new boolean[k];
+		int[] ret = new int[2];
+		int endIndex = startIndex + k - 1;
+		int list;
+		while (!subsetFound && endIndex < listNum.length) {
+			for (int i = startIndex; i <= endIndex; i++) {
+				list = listNum[i];
+				if (!listFound[list])
+					listFound[list] = true;
+			}
+			subsetFound = true;
+			for (int i = 0; i < listFound.length; i++) {
+				if (!listFound[i])
+					subsetFound = false;
+			}
+
+			if (!subsetFound) {
+				endIndex++;
+			} else {
+				ret[0] = startIndex;
+				ret[1] = endIndex;
+			}
+		}
+
+		if (ret[0] == ret[1])
+			return null;
+		else {
+			int[] nextIndex = findSmalllestRangeRecursiveHelper(k, listNum, values, startIndex + 1);
+			if (nextIndex == null) 
+				return ret;
+			else {
+				return (values[nextIndex[1]] - values[nextIndex[0]] < values[ret[1]] - values[ret[0]]) ? nextIndex : ret;
+			}
+		}
+	}
+	
 	
 	public static void main(String[] args) {
 		processScheduling("scheduling");

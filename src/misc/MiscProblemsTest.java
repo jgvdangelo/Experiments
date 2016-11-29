@@ -26,18 +26,12 @@ public class MiscProblemsTest {
 	}
 	
 	@Test
-	public void testTicTaceToe() {
-		int[][] game1 = new int[3][];
-		game1[0] = new int[] {1, 0, 2};
-		game1[1] = new int[] {1, 1, 2};
-		game1[2] = new int[] {1, 0, 2};
-		assertTrue(MiscProblems.ticTacToe(game1));
-		int[][] game2 = new int[3][];
-		game2[0] = new int[] {1, 0, 2};
-		game2[1] = new int[] {2, 1, 2};
-		game2[2] = new int[] {1, 0, 1};
-		assertTrue(MiscProblems.ticTacToe(game2));
-		game2[2] = new int[] {1, 0, 0};
-		assertFalse(MiscProblems.ticTacToe(game2));
+	public void testSmallestListsRange() {
+		int[] list1 = new int[] {4, 10, 15, 24, 26};
+		int[] list2 = new int[] {0, 9, 12, 20};
+		int[] list3 = new int[] {5, 18, 22, 30};
+		int[][] lists = new int[][] {list1, list2, list3};
+		MiscProblems.smallestListsRangeRecursive(lists);
+		assertArrayEquals(new int[] {20, 24}, MiscProblems.findSmallestRange(lists));
 	}
 }
