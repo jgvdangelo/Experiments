@@ -417,6 +417,44 @@ public class MiscProblems {
 		}
 	}
 	
+	// Problem: print out all numbers less than n in string-order
+	public static void printStringOrder(int n) {
+		int width = 0;
+		int widthTemp = n;
+		while (widthTemp > 0) {
+			width++;
+			widthTemp /= 10;
+		}
+		for (int i = 1; i <= 9; i++) {
+			helper(i, n, 0, width);
+		}
+	}
+
+	private static void helper(int cNum, int mNum, int cLevel, int mLevel) {
+		if (cLevel == mLevel && cNum <= mNum) {
+			System.out.println(cNum);
+		} else if (cLevel < mLevel && cNum <= mNum) {
+			System.out.println(cNum);
+			for (int i = 0; i <= 9; i++) {
+				helper(cNum * 10 + i, mNum, cLevel + 1, mLevel);
+			}
+		}
+	}
+	
+	// Problem: check if a number is a perfect square, using only addition or subtraction
+	public static boolean isPerfectSquare(int n) {
+		if (n == 0 || n == 1)
+			return true;
+
+		int diff = 3;
+		int currRes = 1;
+		while (currRes < n) {
+			currRes += diff;
+			diff += 2;
+		}
+
+		return (currRes == n);
+	}
 	
 	public static void main(String[] args) {
 		processScheduling("scheduling");
@@ -426,5 +464,7 @@ public class MiscProblems {
 		System.out.println("Original: " + n + ", Modified: " + nextPermute(n));
 		System.out.println(determineAngle(3,30));
 		System.out.println(splitIntoGroups("a-b-c-d-e", 2));
+		//printStringOrder(20); 
+		System.out.println(isPerfectSquare(44));
 	}
 }

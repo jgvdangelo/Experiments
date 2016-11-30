@@ -5,6 +5,7 @@ import java.awt.Point;
 
 public class MiscDPProblems {
 	// Problem: given a grid, print out all the paths to the top right
+	// 	Note on problem - I will do this bottom-up and top-down
 	public static void travelRecBottomUp(int x, int y, int cx, int cy, List<String> path) {
 		if (cx == x && cy == y) {
 			for (String str : path) {
@@ -79,17 +80,6 @@ public class MiscDPProblems {
 			}
 		}
 	}
-	
-	public static void travelMemo(int x, int y, Map<Point, List<String>> paths, List<String> cPath) {
-		// TODO: finish
-		if (x == 0 && y == 0) {
-			for (String str : cPath) {
-				System.out.print(str + " ");
-			}
-			System.out.println();
-			return;
-		} 
-	}
 
 	public static void travel(int x, int y) {
 		travelRecBottomUp(x, y, 0, 0, new ArrayList<String>());
@@ -101,8 +91,6 @@ public class MiscDPProblems {
 			}
 			System.out.println();
 		}
-		// Map<Point, List<String>> paths = new HashMap<Point, List<String>>();
-		// travelMemo(x, y, paths, new ArrayList<String>());
 	}
 	
 	public static void main(String[] args) {
