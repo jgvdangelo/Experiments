@@ -438,6 +438,43 @@ public class MiscProblems {
 		}
 	}
 	
+	// Problem: https://www.careercup.com/question?id=5698055485521920
+	public static void pagesRange(int d, int k) {
+		List<Integer> sequence = new LinkedList<Integer>();
+
+		int levels = 0;
+		int t = k;
+		while (t != 0) {
+			t /= 10;
+			levels++;
+		}
+
+		populateSequenceUpToK(levels, d, sequence, 0, false);
+		System.out.println(sequence);
+	}
+
+	public static void populateSequenceUpToK(int level, int d, List<Integer> sequence, int soFar, boolean findAll) {
+		if (level > 1 && sequence.size() <= k) {
+			for (int i = 0; i < 10; i++) {
+				if (i != d) {
+					populateSequenceUpToK(level - 1, d, sequence, soFar * 10 + i, findAll);
+				} else {
+					populateSequenceUpToK(level - 1, d, sequence, soFar * 10 + i, true);
+				}
+			}
+		} else if (level == 1) {
+			if (findAll) {
+				for (int i = 0; i < 10; i++) {
+					populateSequenceUpToK(level - 1, d, sequence, soFar * 10 + i, true);
+				}
+			} else {
+				populateSequenceUpToK(level - 1, d, sequence, soFar * 10 + d, false);
+			}
+		} if (level == 0) {
+			sequence.add(soFar);
+		}
+	}
+	
 	public static void main(String[] args) {
 		processScheduling("scheduling");
 		System.out.println(Arrays.toString(minimumChange(69, new int[] {1, 5, 10, 25})));
@@ -447,5 +484,6 @@ public class MiscProblems {
 		System.out.println(splitIntoGroups("a-b-c-d-e", 2));
 		//printStringOrder(20); 
 		System.out.println(isPerfectSquare(44));
+		pagesRange(4, 3);
 	}
 }

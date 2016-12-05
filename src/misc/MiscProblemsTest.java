@@ -43,4 +43,9 @@ public class MiscProblemsTest {
 		int[][] mat = new int[][] {list1, list2, list3};
 		MiscProblems.printDiag(mat);
 	}
+	
+	@Test
+	public void testPagesRange() {
+		assertArrayEquals(new int[] {4, 13}, MiscProblems.pagesRange(4, 1));
+	}
 }
