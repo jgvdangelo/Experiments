@@ -110,34 +110,74 @@ public class BitManProblems {
 	}
 	
 	public static void nextNumber(int n) {
-		System.out.println("ORIGINAL IS: " + Integer.toBinaryString(n));
-		
-		// TODO: this is wrong, redo
-		
-		//// to find next #
-		// find first 1
-		int findFirst = n ^ (n - 1);
-		int oneIndex = -1;
-		while (findFirst != 0) {
-			oneIndex++;
-			findFirst >>= 1;
+		System.out.println(Integer.toBinaryString(n));
+		// find next consecutive sequence of ones
+		// count how many there are & at what position.
+		// move one '1' ahead a bit, and then put all the rest (if any) onto the end
+		int ones = n ^ (n - 1);
+		int currIndex = 0;
+		while (ones != 0) {
+			ones >>= 1;
+			currIndex++;
+		}
+		// currIndex now points to second 1 (if present)
+		int secondOne = currIndex;
+		int proc = n;
+		proc >>= secondOne - 1; 
+		int onesCount = 0;
+		while ((proc & 1) == 1) {
+			onesCount++;
+			proc >>= 1;
+		}
+		proc |= 1;
+		proc <<= onesCount;
+		onesCount--;
+		proc <<= secondOne - 1;
+		if (onesCount > 0) {
+			proc |= (1 << onesCount) - 1;
 		}
 
-		// find first 0 after that 1
-		int findZero = n >> oneIndex;
-		findZero = findZero ^ (n + 1);
-		int zeroIndex = oneIndex - 1;
-		while (findZero != 0) {
-			zeroIndex++;
-			findZero >>= 1;
+		System.out.println(Integer.toBinaryString(proc));
+
+		int c = n;
+		int c0 = 0;
+		int c1 = 0;
+		if ((c & 1) == 1) {
+			while ((c & 1) == 1) {
+				c1++;
+				c >>= 1;
+			}
+
+			while ((c & 1) == 0 && c != 0) {
+				c0++;
+				c >>= 1;
+			}
+
+			if (c == 0)
+				return;
+
+			while (c1 > 0) {
+				c <<= 1;
+				c |= 1;
+				c1--;
+			}
+
+			while (c0 > 0) {
+				c <<= 1;
+				c0--;
+			}
+		} else {
+			c &= (c - 1);
+			int i = n ^ (n - 1);
+			int index = 0;
+			while (i != 1) {
+				 i >>= 1;
+				 index++;
+			}
+			c |= (1 << (index - 1));
 		}
-		System.out.println("Zero index is: " + zeroIndex);
-		
-		// set oneIndex to 0, and zeroIndex to 1
-		int nextNum = n;
-		nextNum &= ~(1 << oneIndex);
-		nextNum |= (1 << zeroIndex);
-		System.out.println("NEXT NUM IS: " + Integer.toBinaryString(nextNum));
+
+		System.out.println(Integer.toBinaryString(c));
 	}
 	
 	// Problem 5.6
@@ -162,5 +202,6 @@ public class BitManProblems {
 		System.out.println(Arrays.toString(arr));
 		swap(arr);
 		System.out.println(Arrays.toString(arr));
+		nextNumber(13948);
 	}
 }
