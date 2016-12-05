@@ -236,10 +236,49 @@ public class DPProblems {
 		}
 	}
 	
+	// Problem 8.6
+	public static void hanoiTowers(int n) {
+		Stack<Integer> s1 = new Stack<Integer>();
+		Stack<Integer> s2 = new Stack<Integer>();
+		Stack<Integer> s3 = new Stack<Integer>();
+		
+		for (int i = n; i > 0; i--) {
+			s1.push(i);
+		}
+		
+		List<Stack<Integer>> stacks = new ArrayList<Stack<Integer>>();
+		stacks.add(s1); stacks.add(s2); stacks.add(s3);
+		
+		moveBulkTDRec(stacks, n, 0, 2, 1);
+	}
+	
+	private static void moveBulkTDRec(List<Stack<Integer>> stacks, int n, int from, int to, int aux) {
+		if (n == 1) {
+			moveOne(stacks, from, to);
+		} else if (n > 1) {
+			moveBulkTDRec(stacks, n - 1, from, aux, to);
+			moveOne(stacks, from, to);
+			moveBulkTDRec(stacks, n - 1, aux, to, from);
+		}
+	}
+	
+	private static void moveOne(List<Stack<Integer>> stacks, int from, int to) {
+		if (stacks.get(from).isEmpty() || 
+				(!stacks.get(to).isEmpty() && stacks.get(from).peek() > stacks.get(to).peek())) {
+			throw new IllegalArgumentException();
+		}
+		
+		int diskMoved = stacks.get(from).pop();
+		stacks.get(to).push(diskMoved);
+		
+		String toPrint = "Moved disk " + diskMoved + " from " + from + " to " + to;
+		System.out.println(toPrint);
+	}
+	
 	public static void main(String[] args) {
 		// problem 8.3
 		int[] arr = new int[] {1, 2, 3, 4};
 		List<List<Integer>> subsets = subsets(arr, true);
-		System.out.println(subsets.toString());
+		hanoiTowers(5);
 	}
 }
