@@ -110,8 +110,16 @@ public class MatrixGraph { // implements IGraph<V> {
 
 
 	public Set<Integer> neighbors(int v) {
-		// TODO Auto-generated method stub
-		return null;
+		Set<Integer> neighbors = new HashSet<Integer>();
+		
+		int[] links = matrix[v];
+		for (int i = 0; i < links.length; i++) {
+			if (links[i] == LINK) {
+				neighbors.add(i);
+			}
+		}
+		
+		return neighbors;
 	}
 
 
@@ -134,8 +142,40 @@ public class MatrixGraph { // implements IGraph<V> {
 
 
 	public List<Integer> shortestPath(int v1, int v2) {
-		// TODO Auto-generated method stub
-		return null;
+		Queue<Integer> queue = new LinkedList<Integer>();
+		Map<Integer, Integer> previous = new HashMap<Integer, Integer>();
+		previous.put(v1, null);
+		queue.add(v1);
+		
+		int curr = 0;
+		boolean found = false;
+		while (!queue.isEmpty() && !found) {
+			curr = queue.remove();
+			if (v2 == curr) 
+				found = true;
+			else {
+				for (Integer n : neighbors(curr)) {
+					if (!previous.containsKey(n)) {
+						previous.put(n, curr);
+						queue.add(n);
+					}
+				}
+			}
+		}
+		
+		if (!previous.containsKey(curr)) {
+			return null;
+		}
+		
+		List<Integer> path = new LinkedList<Integer>();
+		
+		Integer val = curr;
+		while (val != null) {
+			path.add(0, val);
+			val = previous.get(val);
+		}
+		
+		return path;
 	}
 
 

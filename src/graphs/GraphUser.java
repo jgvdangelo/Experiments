@@ -38,8 +38,8 @@ public class GraphUser {
 		
 		System.out.println(graph.isReachable(0,5));
 		System.out.println(graph.isReachable(2,7));
-		
-		// System.out.println(graph.shortestPath(2, 7));
+		System.out.println(graph.neighbors(4));
+		System.out.println(graph.shortestPath(2, 7));
 		
 		scan.close();
 		

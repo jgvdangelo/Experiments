@@ -388,6 +388,7 @@ public class MiscProblems {
 		return (currRes == n);
 	}
 	
+	
 	public static void main(String[] args) {
 		processScheduling("scheduling");
 		System.out.println(Arrays.toString(minimumChange(69, new int[] {1, 5, 10, 25})));
