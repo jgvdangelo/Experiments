@@ -251,6 +251,16 @@ public class DPProblems {
 		
 		moveBulkTDRec(stacks, n, 0, 2, 1);
 		System.out.println(moveBulkTDMemo(n, 0, 2, 1));
+		System.out.println(moveBulkBUTab(n));
+	}
+	
+	private static int moveBulkBUTab(int n) {
+		int[] moves = new int[n + 1];
+		moves[1] = 1;
+		for (int i = 2; i <= n; i++) {
+			moves[i] = 2 * moves[i - 1] + 1;
+		}
+		return moves[n];
 	}
 	
 	private static int moveBulkTDMemo(int n, int from, int to, int aux) {
