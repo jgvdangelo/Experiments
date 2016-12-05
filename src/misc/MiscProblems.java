@@ -388,6 +388,55 @@ public class MiscProblems {
 		return (currRes == n);
 	}
 	
+	// from here: https://www.careercup.com/question?id=5661939564806144
+	public static void printDiag(int[][] mat) {
+		Queue<DiagPoint> q = new LinkedList<DiagPoint>();
+
+		q.add(new DiagPoint(0, 0, 0));
+
+		DiagPoint curr;
+		while (!q.isEmpty()) {
+			curr = q.remove();
+			if (q.isEmpty() || q.peek().layer != curr.layer) {
+				System.out.println(mat[curr.i][curr.j]);
+			} else {
+				System.out.print(mat[curr.i][curr.j]);
+			}
+
+			addIfValid(curr.i + 1, curr.j, curr.layer + 1, mat, q);
+			addIfValid(curr.i, curr.j + 1, curr.layer + 1, mat, q);
+		}
+	}
+
+	private static void addIfValid(int i, int j, int layer, int[][] mat, Queue<DiagPoint> q) {
+		if (i < mat.length && i >= 0 && j < mat[0].length && j >= 0) {
+			DiagPoint toAdd = new DiagPoint(i, j, layer);
+			if (!q.contains(toAdd)) {
+				q.add(toAdd);
+			}
+		}
+	}
+
+	public static class DiagPoint {
+		int i; int j; int layer;
+
+		public DiagPoint(int i, int j, int layer) {
+			this.i = i;
+			this.j = j;
+			this.layer = layer;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			 if (!(obj instanceof DiagPoint))
+						return false;
+				if (obj == this)
+						return true;
+
+				DiagPoint rhs = (DiagPoint) obj;
+				return (rhs.i == this.i && rhs.j == this.j);
+		}
+	}
 	
 	public static void main(String[] args) {
 		processScheduling("scheduling");

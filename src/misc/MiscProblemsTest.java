@@ -34,4 +34,13 @@ public class MiscProblemsTest {
 		MiscProblems.smallestListsRangeRecursive(lists);
 		assertArrayEquals(new int[] {20, 24}, MiscProblems.findSmallestRange(lists));
 	}
+	
+	@Test
+	public void testPrintDiag() {
+		int[] list1 = new int[] {4, 10, 15, 24};
+		int[] list2 = new int[] {0, 9, 12, 20};
+		int[] list3 = new int[] {5, 18, 22, 30};
+		int[][] mat = new int[][] {list1, list2, list3};
+		MiscProblems.printDiag(mat);
+	}
 }
