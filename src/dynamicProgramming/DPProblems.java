@@ -250,6 +250,18 @@ public class DPProblems {
 		stacks.add(s1); stacks.add(s2); stacks.add(s3);
 		
 		moveBulkTDRec(stacks, n, 0, 2, 1);
+		System.out.println(moveBulkTDMemo(n, 0, 2, 1));
+	}
+	
+	private static int moveBulkTDMemo(int n, int from, int to, int aux) {
+		if (n < 1) {
+			return 0;
+		} else if (n == 1) {
+			return 1;
+		} else {
+			int first = moveBulkTDMemo(n - 1, from, aux, to);
+			return 2 * first + 1;
+		}
 	}
 	
 	private static void moveBulkTDRec(List<Stack<Integer>> stacks, int n, int from, int to, int aux) {
