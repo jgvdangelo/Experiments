@@ -454,7 +454,7 @@ public class MiscProblems {
 	}
 
 	public static void populateSequenceUpToK(int level, int d, List<Integer> sequence, int soFar, boolean findAll) {
-		if (level > 1 && sequence.size() <= k) {
+		if (level > 1) {
 			for (int i = 0; i < 10; i++) {
 				if (i != d) {
 					populateSequenceUpToK(level - 1, d, sequence, soFar * 10 + i, findAll);

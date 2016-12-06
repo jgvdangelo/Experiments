@@ -146,9 +146,29 @@ public class MiscDPProblems {
 		System.out.println("GREEDY = " + greedy + ", NON-GREEDY = " + nonGreedy);
 	}
 	
+	// Problem: given a number, re-order the digits so that they are in sorted order
+	public static void reorderDigits(int n) {
+		int[] counts = new int[10];
+		
+		while (n != 0) {
+			counts[n % 10]++;
+			n /= 10;
+		}
+		
+		int output = 0;
+		for (int i = 0; i < counts.length; i++) {
+			for (int j = 0; j < counts[i]; j++) {
+				output = output * 10 + i;
+			}
+		}
+		
+		System.out.println(output);
+	}
+	
 	public static void main(String[] args) {
 		travel(2, 2);
 		maxSum(19, new int[] {7, 30, 8, 22, 6, 1, 14});
 		maxSum(42, new int[] {5, 30, 15, 13, 8});
+		reorderDigits(78876589);
 	}
 }
