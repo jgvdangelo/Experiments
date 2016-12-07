@@ -495,6 +495,76 @@ public class MiscProblems {
 		return num;
 	}
 	
+	// Problem: Program a simple calculator, ex input: "((4+5)*8)-3/2"
+	public static float parseExpression(String str) {
+		Queue<String> tokens = new LinkedList<String>();
+		Queue<Character> operators = new LinkedList<Character>();
+
+		fillQueues(tokens, operators, str);
+
+		float ret = parseToken(tokens.remove());
+
+		float next = 0.0f;
+		while (!operators.isEmpty()) {
+			char operator = operators.remove();
+			next = parseToken(tokens.remove());
+
+			ret = operateToken(ret, next, operator);
+		}
+
+		return ret;
+	}
+
+	public static void fillQueues(Queue<String> tokens, Queue<Character> operators, String expr) {
+		int nestedParamCount = 0;
+		// TODO: check for invalid input
+		int tokenIndexStart = 0;
+		for (int i= 0; i < expr.length(); i++) {
+			if (expr.charAt(i) == '(') {
+				nestedParamCount++;
+			} else if (expr.charAt(i) == ')') {
+				nestedParamCount--;
+			}
+
+			if (nestedParamCount == 0) {
+				if (i == expr.length() - 1) {
+					tokens.add(expr.substring(tokenIndexStart));
+				} else if (isOperator(expr.charAt(i))) {
+					tokens.add(expr.substring(tokenIndexStart, i));
+					operators.add(expr.charAt(i));
+					tokenIndexStart = i + 1;
+				}
+			}
+		}
+	}
+
+	public static boolean isOperator(char c) {
+		return (c == '+' || c == '-' || c == '/' || c == '*');
+	}
+
+	public static float parseToken(String token) {
+		if (token.charAt(0) == '(' && token.charAt(token.length() - 1) == ')') {
+			return parseExpression(token.substring(1, token.length() - 1));
+		} else {
+			return Integer.parseInt(token);
+		}
+	}
+
+	public static float operateToken(float ret, float next, char operator) {
+		switch (operator) {
+			case ('+'):
+				return ret + next;
+			case ('-'):
+				return ret - next;
+			case ('/'):
+				return ret / next;
+			case ('*'):
+				return ret * next;
+			default:
+				return -1;
+		}
+	}
+	
 	public static void main(String[] args) {
 		processScheduling("scheduling");
 		System.out.println(Arrays.toString(minimumChange(69, new int[] {1, 5, 10, 25})));

@@ -51,4 +51,12 @@ public class MiscProblemsTest {
 		int[] num2 = new int[] {9, 2, 3, 4};
 		assertArrayEquals(new int[] {0, 3, 3, 4}, MiscProblems.plusPlus(num2));
 	}
+	
+	@Test
+	public void testParseExpression() {
+		assertTrue(4.0f == MiscProblems.parseExpression("4"));
+		assertTrue(8.0f == MiscProblems.parseExpression("4*2"));
+		assertTrue(16.0f == MiscProblems.parseExpression("(3+1)*4"));
+		assertTrue(2.0f == MiscProblems.parseExpression("(((3+1)*4)/8)"));
+	}
 }
