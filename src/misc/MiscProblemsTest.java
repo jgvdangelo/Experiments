@@ -45,7 +45,10 @@ public class MiscProblemsTest {
 	}
 	
 	@Test
-	public void testPagesRange() {
-		assertArrayEquals(new int[] {4, 13}, MiscProblems.pagesRange(4, 1));
+	public void testPlusPlus() {
+		int[] num1 = new int[] {9, 9, 9, 9};
+		assertArrayEquals(new int[] {0, 0, 0, 0, 1}, MiscProblems.plusPlus(num1));
+		int[] num2 = new int[] {9, 2, 3, 4};
+		assertArrayEquals(new int[] {0, 3, 3, 4}, MiscProblems.plusPlus(num2));
 	}
 }

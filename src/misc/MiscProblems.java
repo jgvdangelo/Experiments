@@ -475,6 +475,26 @@ public class MiscProblems {
 		}
 	}
 	
+	// From here: https://www.careercup.com/question?id=14370695
+	public static int[] plusPlus(int[] num) {
+		int leftOver = 1;
+		int currIndex = 0;
+		int currIndexSum = 0;
+		while (leftOver != 0 && currIndex < num.length) {
+			currIndexSum = num[currIndex] + leftOver;
+			num[currIndex] = currIndexSum % 10;
+			leftOver = currIndexSum / 10;
+			currIndex++;
+		}
+
+		if (leftOver > 0) {
+			num = Arrays.copyOf(num, num.length + 1);
+			num[num.length - 1] = leftOver;
+		}
+
+		return num;
+	}
+	
 	public static void main(String[] args) {
 		processScheduling("scheduling");
 		System.out.println(Arrays.toString(minimumChange(69, new int[] {1, 5, 10, 25})));
