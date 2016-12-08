@@ -2,30 +2,32 @@ package trees;
 
 public class AvlTree implements IBinaryTree {
 	Node root;
+	int size = 0;
 	
 	@Override
 	public void add(int data) {
+		// TODO: check if it contains, and throw if so
 		if (root == null) {
-			root = new Node(data, 1);
+			root = new Node(data);
 		} else {
-			Node toInsert = findNext(root, data);
+			Node toInsert = findInsertionNode(root, data);
 			if (data < toInsert.data) {
 				toInsert.left = new Node(data);
 			} else {
 				toInsert.right = new Node(data);
 			}
 		}
+		size++;
 	}
 	
-	private Node findNext(Node n, int data) {
-		if (data > n.data && n.right == null) {
-			return n;
-		} else if (data < n.data && n.left == null) {
+	private Node findInsertionNode(Node n, int data) {
+		n.height++;
+		if ((data < n.data && n.left == null)||(data > n.data && n.right == null)) {
 			return n;
 		} else if (data > n.data) {
-			return findNext(n.right, data);
+			return findInsertionNode(n.right, data);
 		} else {
-			return findNext(n.left, data);
+			return findInsertionNode(n.left, data);
 		}
 	}
 
@@ -54,14 +56,21 @@ public class AvlTree implements IBinaryTree {
 
 	@Override
 	public int size() {
-		// TODO Auto-generated method stub
-		return 0;
+		return size;
 	}
 
 	@Override
 	public int[] toArray() {
-		// TODO Auto-generated method stub
-		return null;
+		int[] ret = new int[size];
+		insertNodeIntoArray(root, 1, ret);
+		return ret;
 	}
-
+	
+	private void insertNodeIntoArray(Node n, int index, int[] arr) {
+		if (n != null) {
+			arr[index - 1] = n.height;
+			insertNodeIntoArray(n.left, index * 2, arr);
+			insertNodeIntoArray(n.right, index * 2 + 1, arr);
+		}
+	}
 }
