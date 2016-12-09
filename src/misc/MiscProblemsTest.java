@@ -59,4 +59,10 @@ public class MiscProblemsTest {
 		assertTrue(16.0f == MiscProblems.parseExpression("(3+1)*4"));
 		assertTrue(2.0f == MiscProblems.parseExpression("(((3+1)*4)/8)"));
 	}
+	
+	@Test
+	public void testPalindromeChunks() {
+		assertEquals(7, MiscProblems.getLongestPalindromeChunk("ghiabcdefhelloadamhelloabcdefghi"));
+		assertEquals(3, MiscProblems.getLongestPalindromeChunk("volvo"));
+	}
 }

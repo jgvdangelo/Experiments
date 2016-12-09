@@ -565,6 +565,36 @@ public class MiscProblems {
 		}
 	}
 	
+	// Problem, from here: https://careercup.com/question?id=5693718846767104
+	public static int getLongestPalindromeChunk(String str) {
+		 if (str.length() == 1)
+			return 1;
+		 char lastLetter = str.charAt(str.length() - 1);
+
+		 int index = 1;
+		 while (index < str.length() / 2) {
+			if (str.charAt(index) == lastLetter && wordsMatchAtBothEnds(index, str)) {
+				return 2 + getLongestPalindromeChunk(removeStartEndChunk(index, str));
+			}
+			index++;
+		 }
+
+		 return 1;
+	} 
+
+	public static String removeStartEndChunk(int endIndex, String str) {
+		return str.substring(endIndex + 1, str.length() - endIndex - 1);
+	}
+
+	public static boolean wordsMatchAtBothEnds(int endIndex, String str) {	
+		for (int i = 0; i <= endIndex; i++) {
+			if (str.charAt(i) != str.charAt(str.length() - 1 - endIndex + i)) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
 	public static void main(String[] args) {
 		processScheduling("scheduling");
 		System.out.println(Arrays.toString(minimumChange(69, new int[] {1, 5, 10, 25})));
