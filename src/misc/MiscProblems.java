@@ -2,8 +2,8 @@ package misc;
 
 import java.util.*;
 import java.util.List;
+import java.util.Map.Entry;
 import java.io.*;
-import java.awt.*;
 
 public class MiscProblems {
 	// Problem to find max memory being used when multiple tasks are scheduled
@@ -595,6 +595,74 @@ public class MiscProblems {
 		return true;
 	}
 	
+	// Problem, from here: https://careercup.com/question?id=5754527530614784
+	public static void printWorkHierarchy(Map<String, List<String>> map) {
+		Map<String, Person> mapToPerson = new HashMap<String, Person>();
+
+		Person curr;
+		List<Person> reports;
+		for (String str : map.keySet()) {
+			if (mapToPerson.containsKey(str)) {
+				curr = mapToPerson.get(str);
+			} else {
+				curr = new Person(str); 
+				mapToPerson.put(str, curr);
+			}
+			reports = new LinkedList<Person>();
+			for (String reportName : map.get(str)) {
+				if (mapToPerson.containsKey(reportName)) {
+					reports.add(mapToPerson.get(reportName));
+					mapToPerson.get(reportName).manager = curr;
+				} else {
+					Person newPerson = new Person(reportName);
+					mapToPerson.put(reportName, newPerson);
+					newPerson.manager = curr;
+					reports.add(newPerson);
+				}
+			}
+			curr.reports = reports;
+		}
+
+		boolean found = false;
+		Person root = null;
+		Map.Entry<String, Person> pair = null;
+		Iterator<Entry<String, Person>> it = mapToPerson.entrySet().iterator();
+		while (!found && it.hasNext()) {
+			pair = it.next();
+			if (pair.getValue().manager == null) {
+				root = pair.getValue();
+				found = true;
+			}
+		}
+
+		if (root == null) {
+			throw new IllegalArgumentException();
+		}
+
+		printInOrder(root, 0);
+	}
+
+	private static void printInOrder(Person node, int level) {
+		String toPrint = "";
+		for (int i = 0; i < level; i++) 
+			toPrint += "	";
+		toPrint += "-";
+		System.out.println(toPrint + node.name);
+		for (Person report : node.reports) {
+			printInOrder(report, level + 1);
+		}
+	}
+
+	public static class Person {
+		String name;
+		Person manager;
+		List<Person> reports;
+
+		public Person(String name) {
+			this.name = name;
+		}
+	}
+
 	public static void main(String[] args) {
 		processScheduling("scheduling");
 		System.out.println(Arrays.toString(minimumChange(69, new int[] {1, 5, 10, 25})));
