@@ -6,11 +6,13 @@ public class AvlTree implements IBinaryTree {
 	
 	@Override
 	public void add(int data) {
-		// TODO: check if it contains, and throw if so
 		if (root == null) {
 			root = new Node(data);
 		} else {
-			Node toInsert = findInsertionNode(root, data);
+			Node toInsert = findNode(root, data);
+			if (toInsert.data == data) {
+				throw new IllegalArgumentException();
+			}
 			if (data < toInsert.data) {
 				toInsert.left = new Node(data);
 			} else {
@@ -20,17 +22,26 @@ public class AvlTree implements IBinaryTree {
 		size++;
 	}
 	
-	private Node findInsertionNode(Node n, int data) {
-		n.height++;
-		if ((data < n.data && n.left == null)||(data > n.data && n.right == null)) {
+	private Node findNode(Node n, int data) {
+		n.height = Math.max(height(n.left), height(n.right)) + 1;
+		if ((data == n.data)||(data < n.data && n.left == null)||(data > n.data && n.right == null)) {
+			n.height = (n.height == 1) ? 2 : n.height;
+			
 			return n;
 		} else if (data > n.data) {
-			return findInsertionNode(n.right, data);
+			return findNode(n.right, data);
 		} else {
-			return findInsertionNode(n.left, data);
+			return findNode(n.left, data);
 		}
 	}
-
+	
+	private int height(Node n) {
+		if (n == null)
+			return 0;
+		else
+			return n.height;
+	}
+	
 	@Override
 	public void clear() {
 		root = null;
@@ -38,14 +49,13 @@ public class AvlTree implements IBinaryTree {
 
 	@Override
 	public boolean contains(int n) {
-		// TODO Auto-generated method stub
+		// TODO: see if i can gerry-rig findNode to be used here
 		return false;
 	}
 
 	@Override
 	public int peek() {
-		// TODO Auto-generated method stub
-		return 0;
+		return root.data;
 	}
 
 	@Override

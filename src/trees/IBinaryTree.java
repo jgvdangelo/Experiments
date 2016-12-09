@@ -1,5 +1,7 @@
 package trees;
 
+import java.util.List;
+
 public interface IBinaryTree {
 	public void add(int n);
 	public void clear();
