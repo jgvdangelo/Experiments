@@ -9,7 +9,8 @@ public class AvlTree implements IBinaryTree {
 		if (root == null) {
 			root = new Node(data);
 		} else {
-			Node toInsert = findNode(root, data);
+			Node toInsert = addNode(root, data);
+			// TODO: remove the following code, and set root = addNode(root) in previous line
 			if (toInsert.data == data) {
 				throw new IllegalArgumentException();
 			}
@@ -22,7 +23,7 @@ public class AvlTree implements IBinaryTree {
 		size++;
 	}
 	
-	private Node findNode(Node n, int data) {
+	private Node addNode(Node n, int data) {
 		if ((data == n.data)||(data < n.data && n.left == null)||(data > n.data && n.right == null)) {
 			n.height = Math.max(height(n.left), height(n.right)) + 1;
 			n.height = (n.height == 1) ? 2 : n.height;
@@ -31,9 +32,9 @@ public class AvlTree implements IBinaryTree {
 		} else {
 			Node ret;
 			if (data > n.data) {
-				ret = findNode(n.right, data);
+				ret = addNode(n.right, data);
 			} else {
-				ret = findNode(n.left, data);
+				ret = addNode(n.left, data);
 			}
 			rotateIfRequired(n);
 			n.height = Math.max(height(n.left), height(n.right)) + 1;
@@ -59,7 +60,6 @@ public class AvlTree implements IBinaryTree {
 
 	@Override
 	public boolean contains(int n) {
-		// TODO: see if i can gerry-rig findNode to be used here
 		return false;
 	}
 
