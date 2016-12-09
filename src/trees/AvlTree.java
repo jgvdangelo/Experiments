@@ -71,7 +71,8 @@ public class AvlTree implements IBinaryTree {
 
 	@Override
 	public int[] toArray() {
-		int[] ret = new int[size];
+		int arrSize = (int) Math.pow(2, root.height);
+		int[] ret = new int[arrSize];
 		insertNodeIntoArray(root, 1, ret);
 		return ret;
 	}
