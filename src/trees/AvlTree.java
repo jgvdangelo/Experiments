@@ -23,16 +23,26 @@ public class AvlTree implements IBinaryTree {
 	}
 	
 	private Node findNode(Node n, int data) {
-		n.height = Math.max(height(n.left), height(n.right)) + 1;
 		if ((data == n.data)||(data < n.data && n.left == null)||(data > n.data && n.right == null)) {
+			n.height = Math.max(height(n.left), height(n.right)) + 1;
 			n.height = (n.height == 1) ? 2 : n.height;
 			
 			return n;
-		} else if (data > n.data) {
-			return findNode(n.right, data);
 		} else {
-			return findNode(n.left, data);
+			Node ret;
+			if (data > n.data) {
+				ret = findNode(n.right, data);
+			} else {
+				ret = findNode(n.left, data);
+			}
+			rotateIfRequired(n);
+			n.height = Math.max(height(n.left), height(n.right)) + 1;
+			return ret;
 		}
+	}
+	
+	private void rotateIfRequired(Node n) {
+		// TODO implement
 	}
 	
 	private int height(Node n) {
@@ -71,7 +81,7 @@ public class AvlTree implements IBinaryTree {
 
 	@Override
 	public int[] toArray() {
-		int arrSize = (int) Math.pow(2, root.height);
+		int arrSize = (int) Math.pow(2, root.height) - 1;
 		int[] ret = new int[arrSize];
 		insertNodeIntoArray(root, 1, ret);
 		return ret;
@@ -79,7 +89,7 @@ public class AvlTree implements IBinaryTree {
 	
 	private void insertNodeIntoArray(Node n, int index, int[] arr) {
 		if (n != null) {
-			arr[index - 1] = n.height;
+			arr[index - 1] = n.data;
 			insertNodeIntoArray(n.left, index * 2, arr);
 			insertNodeIntoArray(n.right, index * 2 + 1, arr);
 		}
