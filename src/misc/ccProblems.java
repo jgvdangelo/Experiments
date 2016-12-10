@@ -1,10 +1,14 @@
 package misc;
 
 import java.awt.*;
+import java.util.Arrays;
+import java.util.Queue;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Set;
 import java.util.Stack;
 
 public class ccProblems {
@@ -83,5 +87,77 @@ public class ccProblems {
 			}
 			return max;
 		}
+	}
+	
+	// Problem 
+	public static int arrangeBoxes(int[] ballPositions) {
+		Set<Integer> ballsSet = new HashSet<Integer>(Arrays.asList(ballPositions));
+		Map<Integer, Range> ranges = new HashMap<Integer, Range>();
+		Range r; 
+		for (int i : ballPositions) {  
+			r = calculateMaxBallRange(i, ballsSet);
+			ranges.put(i, r);
+		}
+
+		// loop over all ranges + find the range with largest ballNums
+		// swap all other balls NOT in that range into that range
+		Range maxBalls;
+		for (Range s : ranges.values()) {	
+			if (maxBalls == null) 
+				maxBalls = s;
+			else if (s.ballNums > maxBalls.ballNums) {
+				maxBalls = s;
+			}
+		}
+
+		Set<Integer> ballsInPlace = new HashSet<Integer>(); 
+		Queue<Integer> ballsToPlace = new LinkedList<Integer>();
+		for (int i : ballPositions) {
+			if (i <= maxBalls.max && i >= maxBalls.min) {
+				ballsInPlace.add(i);
+			} else {
+				ballsToPlace.add(i);
+			}
+		}
+
+		return ballsToPlace.size();
+	}
+
+	private static Range calculateMaxBallRange(int mid, Set<Integer> ballPositions) {
+		boolean[] arr = new boolean[ballPositions.size() * 2 - 1];
+		// mini arr, shifted to the left by i_new = i_old - (mid - ballPositions.length - 1)
+		
+		for (int i = 0; i < arr.length; i++) {
+			arr[i] = ballPositions.contains(i + (mid - ballPositions.size() - 1));
+		}
+
+		Range max = new Range();
+		int maxNum = 0;
+		for (int i = 0; i < ballPositions.size(); i++) {
+			if (arr[i])
+				maxNum++;
+		}
+		max.ballNums = maxNum;
+		max.min = 0;
+		max.max = max.min + n - 1;
+
+		for (int i = 1; i < arr.length - n; i++) {
+			if (arr(i))
+				maxNum++;
+			else
+				maxNum--;
+			if (maxNum > max.ballNums) {
+				max.ballNums = maxNum;
+				max.min = i;
+				max.max = max.min + n - 1;
+			}
+		}
+
+		return max;
+	}
+
+	public static class Range  {
+		int min; int max;  // max - min <= N
+		int ballNums;
 	}
 }
