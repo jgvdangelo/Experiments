@@ -2,6 +2,8 @@ package misc;
 
 import java.awt.*;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.HashSet;
 import java.util.List;
@@ -91,7 +93,10 @@ public class ccProblems {
 	
 	// Problem 
 	public static int arrangeBoxes(int[] ballPositions) {
-		Set<Integer> ballsSet = new HashSet<Integer>(Arrays.asList(ballPositions));
+		Set<Integer> ballsSet = new HashSet<Integer>();
+		for (int i : ballPositions) {
+			ballsSet.add(i);
+		}
 		Map<Integer, Range> ranges = new HashMap<Integer, Range>();
 		Range r; 
 		for (int i : ballPositions) {  
@@ -101,7 +106,7 @@ public class ccProblems {
 
 		// loop over all ranges + find the range with largest ballNums
 		// swap all other balls NOT in that range into that range
-		Range maxBalls;
+		Range maxBalls = null;
 		for (Range s : ranges.values()) {	
 			if (maxBalls == null) 
 				maxBalls = s;
@@ -124,6 +129,7 @@ public class ccProblems {
 	}
 
 	private static Range calculateMaxBallRange(int mid, Set<Integer> ballPositions) {
+		int n = ballPositions.size();
 		boolean[] arr = new boolean[ballPositions.size() * 2 - 1];
 		// mini arr, shifted to the left by i_new = i_old - (mid - ballPositions.length - 1)
 		
@@ -142,7 +148,7 @@ public class ccProblems {
 		max.max = max.min + n - 1;
 
 		for (int i = 1; i < arr.length - n; i++) {
-			if (arr(i))
+			if (arr[i + n - 1])
 				maxNum++;
 			else
 				maxNum--;
@@ -159,5 +165,47 @@ public class ccProblems {
 	public static class Range  {
 		int min; int max;  // max - min <= N
 		int ballNums;
+	}
+	
+	// Problem: https://careercup.com/question?id=5160184402935808
+	public static double viewPoints(List<Point> pts, int viewAngle) {
+		// calculate the angle from 0 (positive x-y coordinate) required to view each point directly
+		List<Double> angles = new LinkedList<Double>();
+		for (Point pt : pts) {
+			angles.add(calculateAngle(pt));
+		}
+		Collections.sort(angles);
+		PriorityQueue<Double> q = new PriorityQueue<Double>();
+		int maxSize = 1;
+		double minAngle = angles.get(0);
+		double maxAngle = angles.get(0);
+		int diff;
+		for (int i = 1; i < angles.size(); i++) {
+			q.add(angles.get(i));
+			while (!q.isEmpty() && angles.get(i) - q.peek() > viewAngle) {
+				q.remove(q.peek());
+			}
+
+			if (q.size() > maxSize) {
+				maxSize = q.size();
+				minAngle = q.peek();
+				maxAngle = angles.get(i);
+			}
+		}
+
+		return (minAngle + maxAngle) / 2;
+	}
+
+	private static double calculateAngle(Point pt) {
+		double angle = Math.toDegrees(Math.atan(((double) Math.abs(pt.y))/((double) Math.abs(pt.x))));
+		if (pt.y >= 0 && pt.x >= 0) {
+			return angle;
+		} else if (pt.y >= 0 && pt.x < 0) {
+			return angle + 90;
+		} else if (pt.y < 0 && pt.x < 0) {
+			return angle + 180;
+		} else {
+			return angle + 270;
+		}
 	}
 }
