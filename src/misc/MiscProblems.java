@@ -662,6 +662,31 @@ public class MiscProblems {
 			this.name = name;
 		}
 	}
+	
+	// Problem http://www.practice.geeksforgeeks.org/problem-page.php?pid=389
+	public static void jumpingNumbers(int n) { 
+		if (n >= 0) {
+			System.out.print("0 ");
+		}
+		for (int i = 1; i <= 9; i++) {
+			printJumps(n, i);
+		}
+	}
+
+	private static void printJumps(int n, int numSoFar) {
+		if (numSoFar > n) {  
+			return;
+		} else {
+			System.out.print(numSoFar + " ");
+			int lastDigit = numSoFar % 10;
+			if (lastDigit > 0) {
+				printJumps(n, numSoFar * 10 + lastDigit - 1);
+			}
+			if (lastDigit < 9) {
+				printJumps(n, numSoFar * 10 + lastDigit + 1);
+			}
+		}
+	}
 
 	public static void main(String[] args) {
 		processScheduling("scheduling");
@@ -673,5 +698,6 @@ public class MiscProblems {
 		//printStringOrder(20); 
 		System.out.println(isPerfectSquare(44));
 		pagesRange(4, 3);
+		jumpingNumbers(50);
 	}
 }
