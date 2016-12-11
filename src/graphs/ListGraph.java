@@ -153,4 +153,53 @@ public class ListGraph<V> implements IGraph<V> {
 	public Set<V> vertices() {
 		return lists.keySet();
 	}
+	
+	public List<V> topologicalSort() {
+		List<V> ret = new LinkedList<V>();
+		Queue<V> q = new LinkedList<V>();
+		Map<V, Integer> inDegree = new HashMap<V, Integer>();
+		
+		for (Map.Entry<V, Set<V>> kvp : lists.entrySet()) {
+			if (!inDegree.containsKey(kvp.getKey())) {
+				inDegree.put(kvp.getKey(), 0);
+			}
+			for (V v : kvp.getValue()) 
+				incrementMap(v, inDegree);
+		}
+		
+		for (Map.Entry<V, Integer> kvp : inDegree.entrySet()) {
+			if (kvp.getValue() == 0) 
+				q.add(kvp.getKey());
+		}
+		
+		V curr;
+		while (!q.isEmpty()) {
+			curr = q.remove();
+			ret.add(curr);
+			for (V v : lists.get(curr)) 
+				decrementMap(v, inDegree);
+			
+			for (Map.Entry<V, Integer> kvp : inDegree.entrySet()) {
+				if (kvp.getValue() == 0 && !q.contains(kvp.getKey()) && !ret.contains(kvp.getKey()))
+					q.add(kvp.getKey());
+			}
+		}
+		
+		return ret;
+	}
+	
+	private void incrementMap(V v, Map<V, Integer> map) {
+		if (map.containsKey(v)) {
+			map.put(v, map.get(v) + 1);
+		} else {
+			map.put(v, 1);
+		}
+	}
+	
+	private void decrementMap(V v, Map<V, Integer> map) {
+		if (!map.containsKey(v)) {
+			throw new IllegalArgumentException();
+		} 
+		map.put(v, map.get(v) - 1);
+	}
 }

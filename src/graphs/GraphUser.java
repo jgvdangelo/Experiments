@@ -17,8 +17,8 @@ public class GraphUser {
 		int vertices = scan.nextInt();
 		int edges = scan.nextInt();
 		
-		// IGraph<Integer> graph = new ListGraph<Integer>();
-		MatrixGraph graph = new MatrixGraph();
+		ListGraph<Integer> graph = new ListGraph<Integer>();
+		// MatrixGraph graph = new MatrixGraph();
 		
 		int v1; int v2;
 		for (int i = 0; i < edges; i++) {
@@ -40,6 +40,7 @@ public class GraphUser {
 		System.out.println(graph.isReachable(2,7));
 		System.out.println(graph.neighbors(4));
 		System.out.println(graph.shortestPath(2, 7));
+		System.out.println(graph.topologicalSort());
 		
 		scan.close();
 		
