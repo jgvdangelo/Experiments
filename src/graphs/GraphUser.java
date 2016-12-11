@@ -40,7 +40,9 @@ public class GraphUser {
 		System.out.println(graph.isReachable(2,7));
 		System.out.println(graph.neighbors(4));
 		System.out.println(graph.shortestPath(2, 7));
-		System.out.println(graph.topologicalSort());
+		if (graph instanceof IGraph<?>) {
+			System.out.println(graph.topologicalSort());
+		}
 		
 		scan.close();
 		
