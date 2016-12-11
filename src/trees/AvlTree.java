@@ -100,6 +100,7 @@ public class AvlTree implements IBinaryTree {
 		}
 	}
 	
+	// Problem: https://careercup.com/question?id=5689208527126528
 	public List<Integer> findLongestPath() {
 		if (root == null)
 			return null;
@@ -143,14 +144,20 @@ public class AvlTree implements IBinaryTree {
 			} else if (l1 == null || l2 == null) {
 				List<Integer> list = (l1 == null) ? l2 : l1;
 				list.add(n.data);
-				if (parentFitsInSequence(list, parent.data) {
+				if (parentFitsInSequence(list, parent.data)) {
 					return list;
 				} else { 
 					addListToHashMap(n.data, list, pathsMap);
+					return null;
 				}
 			} else {
 				l1.add(n.data);
 				l2.add(n.data);
+				
+				if (l1 != null && l2 != null && pathsAreCompatible(l1, l2)) {
+					addListToHashMap(n.data, mergeLists(l1, l2), pathsMap);  
+				}
+				
 				boolean l1p = parentFitsInSequence(l1, parent.data);
 				boolean l2p = parentFitsInSequence(l2, parent.data);
 				if (l1p) {  
@@ -163,10 +170,7 @@ public class AvlTree implements IBinaryTree {
 					addListToHashMap(n.data, l1, pathsMap);
 					addListToHashMap(n.data, l2, pathsMap);
 				}
-
-				if (pathsAreCompatible(l1, l2)) {
-					addListToHashMap(n.data, mergeLists(l1, l2), pathsMap);  
-				}
+				return null;
 			}
 		}
 	}
