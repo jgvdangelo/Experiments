@@ -12,18 +12,25 @@ public class LRUCache<V> {
 	}
 	
 	public void reference(V v) {
-		Node<V> toAdd = new Node<V>(v);
-		q.enqueue(toAdd);
-		hash.put(v, toAdd);
-		
-		if (cacheSize < q.size) {
-			Node<V> removed = q.dequeue();
-			hash.remove(removed.data);
+		Node<V> toAdd;
+		if (!hash.containsKey(v)) {
+			toAdd = new Node<V>(v);
+			q.enqueue(toAdd);
+			hash.put(v, toAdd);
+			
+			if (cacheSize < q.size) {
+				Node<V> removed = q.dequeue();
+				hash.remove(removed.data);
+			}
+		} else {
+			toAdd = hash.get(v);
+			q.remove(toAdd);
+			q.enqueue(toAdd);
 		}
 	}
 	
 	public void printOutput() {
-		// TODO: implement
+		System.out.println(q.toString());
 	}
 	
 	private class DoublyLinkedList<U> {
@@ -44,11 +51,17 @@ public class LRUCache<V> {
 		}
 		
 		public void remove(Node<U> n) {
-			Node<U> prev = n.prev;
-			Node<U> next = n.next;
-			prev.next = next;
-			n.next = null;
-			n.prev = null;
+			if (front == n) {
+				front = n.next;
+				n.next = null;
+			} else  {
+				Node<U> prev = n.prev;
+				Node<U> next = n.next;
+				prev.next = next;
+				n.next = null;
+				n.prev = null;
+			}
+			size--;
 		}
 		
 		public Node<U> dequeue() {
@@ -67,6 +80,20 @@ public class LRUCache<V> {
 				ret.prev = null;
 				size--;
 				return ret;
+			}
+		}
+		
+		public String toString() {
+			if (front == null) {
+				return "";
+			} else {
+				Node<U> curr = last;
+				StringBuilder str = new StringBuilder();
+				while (curr != null) {
+					str.append(curr.data.toString());
+					curr = curr.prev;
+				}
+				return str.toString();
 			}
 		}
 	}
