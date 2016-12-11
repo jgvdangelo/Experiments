@@ -12,7 +12,14 @@ public class LRUCache<V> {
 	}
 	
 	public void reference(V v) {
-		// TODO: implement
+		Node<V> toAdd = new Node<V>(v);
+		q.enqueue(toAdd);
+		hash.put(v, toAdd);
+		
+		if (cacheSize < q.size) {
+			Node<V> removed = q.dequeue();
+			hash.remove(removed.data);
+		}
 	}
 	
 	public void printOutput() {
