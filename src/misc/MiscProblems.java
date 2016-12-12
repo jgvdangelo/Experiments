@@ -687,6 +687,57 @@ public class MiscProblems {
 			}
 		}
 	}
+	
+	// Problem: meghan's Quad problem
+	public static Quad logicalAnd(Quad q1, Quad q2) {
+		if (q1.isColor() && q2.isColor()) {
+			Quad ret = new Quad(true);
+			ret.colored = q1.colored && q2.colored;
+			return ret;
+		} else {
+			Quad ret = new Quad(false);
+			if (!q1.colored && !q2.colored) {
+				for (int i = 0; i < 4; i++) {
+					ret.grid.add(helper(q1.get(i), q2.get(i)));
+				}
+			} else {
+				Quad toIterate;
+				Quad toPass;
+				if (q1.isColor() && !q2.isColor()) {
+					toIterate = q2;
+					toPass = q1;
+				} else {
+					toIterate = q1;
+					toPass = q2;
+				}
+				for (int i = 0; i < 4; i++) {
+					ret.grid.add(helper(toPass, toIterate.get(i)));
+				}
+			}
+			return ret;
+		}
+	}
+
+	public static class Quad {
+		List<Quad> grid;
+		boolean colored;
+		boolean isAColorQuad;
+
+		public boolean isColor() { 
+			if ((grid == null && !isAColorQuad) || (grid != null && isAColorQuad)) {
+				throw new IllegalArgumentException();
+			return (isAColorQuad);
+		}
+
+		public Quad(boolean isColored) {
+			if (isColored) {
+				isAColorQuad = true;
+				colored = false;
+			} else {
+				grid = new List<Quad>();
+			}
+		}
+	}
 
 	public static void main(String[] args) {
 		processScheduling("scheduling");

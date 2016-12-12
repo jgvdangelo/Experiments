@@ -103,9 +103,69 @@ public class MediumProblems {
 		return false;
 	}
 	
-	// Problem 16.6
-	public static int smallestInt(int[] arr1, int[] arr2) {
-		return 0;
+	// Problem 16.18
+	public static boolean patternMatch(String pattern, String value) {
+		if (pattern == null || value == null || pattern.length() > value.length()) {
+			return false;
+		}
+
+		// a_num * a_length + b_num * b_length = value.length()
+		int aCount = 0; int bCount = 0;
+		for (char c : pattern.toCharArray()) {
+			if (c == 'a')
+				aCount++;
+			else 
+				bCount++;
+		}
+		if (aCount == 0 || bCount == 0) {
+			return true;
+		}
+
+		int b = 0;
+		int step1;
+		for (int a = 1; a < value.length() - 1; a++) {
+			step1 = (value.length() - (aCount * a));
+			if (step1 % bCount != 0) {
+				continue;
+			}
+			b = step1 / bCount;
+			if (validatePatternMatch(a, b, pattern, value)) {
+				return true;
+			}	
+		}
+		return false;
+	}
+
+	public static boolean validatePatternMatch(int aSize, int bSize, String pattern, String value) {
+		String bTokenPrev = null;
+		String aTokenPrev = null;
+		String aToken = null;
+		String bToken = null;
+
+		for (int i = 0; i < pattern.length(); i++) {
+			if (pattern.charAt(i) == 'a') {
+				aTokenPrev = aToken;
+				if (aSize > value.length()) {
+					return false;
+				}
+				aToken = value.substring(0, aSize);
+				value = value.substring(aSize);
+				if (aTokenPrev != null && !aTokenPrev.equals(aToken)) {
+					return false;
+				}
+			} else {
+				bTokenPrev = bToken;
+				if (bSize > value.length()) {
+					return false;
+				}
+				bToken = value.substring(0, bSize);
+				value = value.substring(bSize);
+				if (aTokenPrev != null && !aTokenPrev.equals(aToken)) {
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 	
 	public static void main(String[] args) {

@@ -22,5 +22,12 @@ public class MediumProblemsTest {
 		game2[2] = new int[] {1, 0, 0};
 		assertFalse(MediumProblems.ticTacToe(game2));
 	}
+	
+	@Test
+	public void testPatternMatch() {
+		assertTrue(MediumProblems.patternMatch("aabab", "catcatgocatgo"));
+		assertFalse(MediumProblems.patternMatch("aababbb", "catcatgocatgo"));
+		assertTrue(MediumProblems.patternMatch("ab", "catcatgocatgo"));
+	}
 
 }
